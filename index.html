@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkEZ Refresh — Brewing Launch Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #faf5e9;
+    --paper-2: #f3ecd8;
+    --ink: #181410;
+    --ink-soft: #4a4239;
+    --ink-mute: #7a6f63;
+    --navy: #142847;
+    --navy-soft: #243d63;
+    --crema: #e8d6a6;
+    --espresso: #5b2f12;
+    --espresso-2: #3a1d09;
+    --copper: #c2772a;
+    --copper-soft: #d99249;
+    --line: #d9cdb4;
+    --line-soft: #e5dcc4;
+    --white: #ffffff;
+    --shadow-sm: 0 1px 2px rgba(58, 29, 9, 0.06);
+    --shadow-md: 0 8px 24px rgba(58, 29, 9, 0.10);
+    --shadow-lg: 0 24px 60px rgba(58, 29, 9, 0.18);
+    --grain: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.36 0 0 0 0 0.20 0 0 0 0 0.05 0 0 0 0.06 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background-image: var(--grain);
+    opacity: 0.45;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 1;
+  }
+  body > * { position: relative; z-index: 2; }
+
+  /* ===== HEADER ===== */
+  .topbar {
+    background: var(--navy);
+    color: var(--paper);
+    padding: 14px 32px;
+    border-bottom: 4px solid var(--copper);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .topbar .brand { color: var(--crema); font-weight: 500; }
+  .topbar .meta { color: var(--paper); opacity: 0.7; }
+  .topbar .dot {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--copper); margin: 0 10px; vertical-align: middle;
+  }
+
+  header.hero {
+    padding: 70px 32px 36px;
+    max-width: 1480px; margin: 0 auto;
+    position: relative;
+  }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--copper); font-weight: 500;
+    margin-bottom: 14px;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::after {
+    content: ""; height: 1px; width: 60px; background: var(--copper);
+  }
+  h1.title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.95;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 18px;
+    max-width: 900px;
+  }
+  h1.title em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--espresso);
+  }
+  h1.title .accent {
+    color: var(--copper);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .lede {
+    font-family: 'Fraunces', serif;
+    font-size: 19px; line-height: 1.55;
+    color: var(--ink-soft); font-weight: 400;
+    max-width: 660px;
+    margin-bottom: 8px;
+  }
+  .lede .strong { color: var(--ink); font-weight: 500; }
+  .legend {
+    margin-top: 28px;
+    display: flex; gap: 20px; flex-wrap: wrap;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend i {
+    width: 10px; height: 10px; display: inline-block; border-radius: 2px;
+  }
+  .lg-tease { background: var(--crema); }
+  .lg-why { background: var(--copper-soft); }
+  .lg-light { background: var(--line); }
+  .lg-reveal { background: var(--navy); }
+  .lg-launch { background: var(--espresso); }
+  .lg-sustain { background: var(--ink-mute); }
+
+  /* ===== GRID ===== */
+  .grid-wrap {
+    padding: 24px 32px 80px;
+    max-width: 1480px; margin: 0 auto;
+    overflow-x: auto;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 200px repeat(5, 1fr);
+    gap: 8px;
+    min-width: 1100px;
+  }
+  .ghead {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-mute); font-weight: 500;
+    padding: 14px 12px 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  .ghead.platform { color: var(--navy); font-weight: 600; }
+
+  .dayrow {
+    display: contents;
+  }
+  .dcell {
+    background: var(--white);
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
+    padding: 16px 14px;
+    min-height: 130px;
+    display: flex; flex-direction: column; gap: 10px;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+  .dcell.day {
+    background: transparent;
+    border: none;
+    padding: 18px 14px;
+    border-right: 1px solid var(--line);
+  }
+  .dcell.empty {
+    background: var(--paper-2);
+    opacity: 0.5;
+    border: 1px dashed var(--line);
+  }
+  .dcell.empty::after {
+    content: "·";
+    color: var(--ink-mute);
+    font-size: 32px;
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -65%);
+  }
+  .day-label {
+    font-family: 'Fraunces', serif;
+    font-size: 26px; font-weight: 600;
+    color: var(--ink); letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .day-label .dow {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-mute); font-weight: 400;
+    margin-top: 6px;
+  }
+  .phase {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 3px 8px 4px;
+    border-radius: 2px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    font-weight: 500;
+    color: var(--ink);
+    width: fit-content;
+  }
+  .phase.tease { background: var(--crema); }
+  .phase.why { background: var(--copper-soft); color: var(--espresso-2); }
+  .phase.light { background: var(--line); }
+  .phase.reveal { background: var(--navy); color: var(--paper); }
+  .phase.launch { background: var(--espresso); color: var(--paper); }
+  .phase.sustain { background: var(--ink-mute); color: var(--paper); }
+  .phase.email-only { background: var(--copper); color: var(--paper); }
+
+  .post {
+    background: var(--paper);
+    border: 1px solid var(--line-soft);
+    border-left: 3px solid var(--copper);
+    border-radius: 3px;
+    padding: 10px 12px;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .post:hover {
+    border-left-color: var(--espresso);
+    background: var(--paper-2);
+    transform: translateX(2px);
+  }
+  .post-meta {
+    flex: 1; min-width: 0;
+  }
+  .post-time {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 2px;
+  }
+  .post-summary {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px; line-height: 1.35;
+    color: var(--ink); font-weight: 500;
+  }
+  .info-btn {
+    width: 26px; height: 26px; flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--white);
+    border: 1px solid var(--line);
+    color: var(--espresso);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    line-height: 1;
+  }
+  .post:hover .info-btn {
+    background: var(--espresso);
+    color: var(--crema);
+    transform: rotate(360deg);
+  }
+  .platform-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-mute);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  /* ===== MODAL ===== */
+  .modal-back {
+    position: fixed; inset: 0;
+    background: rgba(20, 14, 8, 0.55);
+    backdrop-filter: blur(4px);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 100;
+    display: flex; justify-content: center; align-items: center;
+    padding: 40px 20px;
+  }
+  .modal-back.show {
+    opacity: 1; pointer-events: all;
+  }
+  .modal {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    width: 100%; max-width: 1080px;
+    max-height: 90vh; overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+  }
+  .modal-back.show .modal { transform: translateY(0); }
+  .modal-head {
+    padding: 28px 36px 20px;
+    border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 20px;
+    background: linear-gradient(180deg, var(--paper-2) 0%, var(--paper) 100%);
+  }
+  .modal-head-info { flex: 1; }
+  .modal-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--copper); font-weight: 500;
+    margin-bottom: 8px;
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .modal-eyebrow .sep { color: var(--line); }
+  .modal-h {
+    font-family: 'Fraunces', serif;
+    font-size: 32px; font-weight: 600; line-height: 1.1;
+    color: var(--ink); letter-spacing: -0.015em;
+    margin-bottom: 8px;
+  }
+  .modal-sub {
+    font-family: 'Fraunces', serif;
+    font-size: 16px; font-style: italic;
+    color: var(--ink-soft);
+  }
+  .close-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: var(--ink-soft);
+    transition: all 0.15s ease;
+  }
+  .close-btn:hover {
+    background: var(--espresso); color: var(--paper);
+    border-color: var(--espresso);
+  }
+  .modal-body {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 0;
+  }
+  .modal-section {
+    padding: 32px 36px;
+  }
+  .modal-section + .modal-section {
+    border-left: 1px solid var(--line);
+  }
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--copper); font-weight: 500;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after {
+    content: ""; flex: 1; height: 1px; background: var(--line);
+  }
+  .copy-text {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14.5px; line-height: 1.65;
+    color: var(--ink); white-space: pre-wrap;
+    background: var(--white);
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
+    padding: 20px 22px;
+    border-left: 3px solid var(--copper);
+  }
+  .design-text {
+    font-family: 'Fraunces', serif;
+    font-size: 14.5px; line-height: 1.7;
+    color: var(--ink-soft); font-style: italic;
+  }
+  .design-text .strong {
+    font-weight: 600; font-style: normal; color: var(--ink);
+  }
+  .design-text ul { margin: 12px 0 0 20px; }
+  .design-text li { margin: 6px 0; }
+
+  .cross-links {
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: var(--crema);
+    border-radius: 4px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 12.5px;
+    color: var(--espresso-2);
+  }
+  .cross-links strong {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--espresso); font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .cross-links a {
+    color: var(--espresso-2); text-decoration: underline;
+    text-decoration-color: var(--copper);
+    text-underline-offset: 3px;
+  }
+
+  /* ===== MOCKUPS ===== */
+  .mockup-wrap {
+    background: var(--paper-2);
+    padding: 32px 28px;
+    border-radius: 4px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .mock {
+    width: 100%; max-width: 380px;
+    background: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    font-size: 13px;
+  }
+
+  /* LinkedIn mockup */
+  .mock-linkedin {
+    border: 1px solid #d6d8dc;
+  }
+  .mock-linkedin .mh {
+    padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+  .mock-linkedin .av {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy), var(--espresso));
+    color: var(--crema);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 600; font-size: 16px;
+  }
+  .mock-linkedin .nm { font-weight: 600; font-size: 14px; color: #000; }
+  .mock-linkedin .mt { font-size: 11px; color: #666; }
+  .mock-linkedin .mb {
+    padding: 0 14px 12px;
+    font-family: -apple-system, system-ui, sans-serif;
+    font-size: 13.5px; line-height: 1.5; color: #000;
+    white-space: pre-wrap;
+  }
+  .mock-linkedin .mi {
+    aspect-ratio: 1.91;
+    background: var(--navy);
+    color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .mock-linkedin .ma {
+    padding: 8px 14px; border-top: 1px solid #eaeaea;
+    font-size: 11px; color: #666;
+    display: flex; gap: 14px;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+
+  /* Instagram mockup */
+  .mock-ig {
+    border: 1px solid #dbdbdb;
+  }
+  .mock-ig .mh {
+    padding: 11px 12px;
+    display: flex; align-items: center; gap: 10px;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+  .mock-ig .av-ig {
+    width: 32px; height: 32px; border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  }
+  .mock-ig .av-inner {
+    width: 100%; height: 100%; border-radius: 50%;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 12px; color: var(--espresso); font-weight: 600;
+  }
+  .mock-ig .nm { font-weight: 600; font-size: 13px; flex: 1; }
+  .mock-ig .more { color: #262626; font-size: 18px; }
+  .mock-ig .mi {
+    aspect-ratio: 1;
+    background: var(--espresso);
+    color: var(--crema);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .mock-ig .ma {
+    padding: 10px 12px 4px;
+    display: flex; gap: 14px;
+    font-size: 22px; color: #262626;
+  }
+  .mock-ig .ma .right { margin-left: auto; }
+  .mock-ig .mlikes {
+    padding: 0 12px 4px;
+    font-size: 13px; font-weight: 600;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+  .mock-ig .mcap {
+    padding: 0 12px 12px;
+    font-size: 13px; line-height: 1.4;
+    font-family: -apple-system, system-ui, sans-serif;
+    white-space: pre-wrap;
+  }
+  .mock-ig .mcap b { font-weight: 600; }
+  .carousel-dots {
+    position: absolute; top: 12px; right: 12px;
+    background: rgba(0,0,0,0.6); color: var(--white);
+    padding: 4px 9px; border-radius: 12px;
+    font-family: -apple-system, system-ui, sans-serif;
+    font-size: 11px; font-weight: 500;
+  }
+
+  /* Story mockup */
+  .mock-story {
+    aspect-ratio: 9/16;
+    max-width: 240px;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    background: var(--espresso);
+    color: var(--paper);
+  }
+  .story-bars {
+    position: absolute; top: 8px; left: 8px; right: 8px;
+    display: flex; gap: 4px; z-index: 3;
+  }
+  .story-bars .bar {
+    height: 2px; flex: 1;
+    background: rgba(255,255,255,0.4); border-radius: 1px;
+  }
+  .story-bars .bar.active { background: var(--white); }
+  .story-content {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 50px 24px;
+    text-align: center;
+  }
+
+  /* Facebook mockup */
+  .mock-fb {
+    border: 1px solid #ced0d4;
+  }
+  .mock-fb .mh {
+    padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+  .mock-fb .av {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy), var(--espresso));
+    color: var(--crema);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+  }
+  .mock-fb .nm { font-weight: 600; font-size: 14px; color: #1c1e21; }
+  .mock-fb .mt { font-size: 12px; color: #65676b; }
+  .mock-fb .mb {
+    padding: 0 14px 12px;
+    font-size: 14px; line-height: 1.5; color: #1c1e21;
+    font-family: -apple-system, system-ui, sans-serif;
+    white-space: pre-wrap;
+  }
+  .mock-fb .mi {
+    aspect-ratio: 1.91;
+    background: var(--navy);
+    color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mock-fb .ma {
+    padding: 8px 14px; border-top: 1px solid #ced0d4;
+    font-size: 13px; color: #65676b;
+    display: flex; justify-content: space-around;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+
+  /* X mockup */
+  .mock-x {
+    border: 1px solid #cfd9de;
+    background: var(--white);
+    padding: 14px 16px;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+  .mock-x .mh {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 4px;
+  }
+  .mock-x .av {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy), var(--espresso));
+    color: var(--crema); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+  }
+  .mock-x .nm-line { font-size: 14px; line-height: 1.3; }
+  .mock-x .nm-line b { font-weight: 700; color: #0f1419; }
+  .mock-x .nm-line .handle { color: #536471; }
+  .mock-x .mb {
+    font-size: 15px; line-height: 1.45;
+    color: #0f1419;
+    margin: 4px 0 10px;
+    white-space: pre-wrap;
+  }
+  .mock-x .mi {
+    aspect-ratio: 16/9;
+    background: var(--navy);
+    color: var(--paper);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .mock-x .ma {
+    display: flex; gap: 32px;
+    font-size: 13px; color: #536471;
+    margin-top: 10px;
+  }
+  .thread-connector {
+    width: 2px; height: 16px;
+    background: #cfd9de;
+    margin-left: 33px;
+  }
+  .mock-x.thread + .mock-x.thread {
+    border-top-left-radius: 0; border-top-right-radius: 0;
+  }
+
+  /* Email mockup */
+  .mock-email {
+    border: 1px solid #d8dee4;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+  .mock-email .ehead {
+    padding: 14px 18px;
+    background: var(--paper-2);
+    border-bottom: 1px solid var(--line);
+  }
+  .mock-email .efrom {
+    font-size: 12px; color: var(--ink-mute);
+    margin-bottom: 4px;
+  }
+  .mock-email .esubject {
+    font-family: 'Fraunces', serif;
+    font-size: 18px; font-weight: 600;
+    color: var(--ink); line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .mock-email .epreview {
+    font-size: 12.5px; color: var(--ink-soft); font-style: italic;
+  }
+  .mock-email .ebody {
+    padding: 22px 20px 24px;
+    font-size: 13px; line-height: 1.6;
+    color: var(--ink); white-space: pre-wrap;
+    background: var(--white);
+  }
+  .mock-email .ebtn {
+    display: inline-block;
+    padding: 10px 18px;
+    background: var(--espresso);
+    color: var(--paper) !important;
+    border-radius: 4px;
+    font-size: 12.5px; font-weight: 600;
+    text-decoration: none;
+    margin: 6px 0;
+    letter-spacing: 0.02em;
+  }
+
+  /* Visual scene contents inside mockups */
+  .scene {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 18px;
+  }
+  .scene-content {
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .scene-icon {
+    font-size: 56px;
+    line-height: 1;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+  }
+  .scene-headline {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .scene-headline em { font-style: italic; }
+  .scene-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .scene-note {
+    margin-top: 12px;
+    font-size: 11px;
+    font-style: italic;
+    opacity: 0.6;
+    max-width: 240px;
+    line-height: 1.4;
+  }
+  .scene.bg-navy { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%); color: var(--paper); }
+  .scene.bg-espresso { background: linear-gradient(135deg, var(--espresso-2) 0%, var(--espresso) 100%); color: var(--crema); }
+  .scene.bg-cream { background: linear-gradient(135deg, var(--paper) 0%, var(--crema) 100%); color: var(--ink); }
+  .scene.bg-copper { background: linear-gradient(135deg, var(--copper) 0%, var(--copper-soft) 100%); color: var(--white); }
+  .scene.bg-coffee-photo {
+    background:
+      radial-gradient(circle at 30% 30%, rgba(255,220,160,0.15), transparent 50%),
+      linear-gradient(135deg, #2a1a0a 0%, #4a2c14 60%, #1a0e04 100%);
+    color: var(--crema);
+  }
+  .scene.bg-screen {
+    background:
+      linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%);
+    color: var(--ink);
+  }
+
+  /* Screenshot mock */
+  .scene-screenshot {
+    width: 100%; max-width: 280px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+  .scene-screenshot .ss-bar {
+    height: 8px; background: var(--paper-2); border-radius: 2px;
+    margin-bottom: 6px; width: 60%;
+  }
+  .scene-screenshot .ss-card {
+    background: var(--paper); padding: 8px; border-radius: 3px;
+    margin-bottom: 4px;
+  }
+  .scene-screenshot .ss-card .t1 { height: 6px; background: var(--navy); width: 50%; border-radius: 1px; margin-bottom: 4px; }
+  .scene-screenshot .ss-card .t2 { height: 4px; background: var(--ink-mute); width: 70%; border-radius: 1px; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 40px 32px 60px;
+    max-width: 1480px; margin: 0 auto;
+    border-top: 1px solid var(--line);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  footer .right { color: var(--espresso); font-weight: 500; }
+
+  /* Multiple posts per cell */
+  .post + .post { margin-top: 6px; }
+
+  /* Empty cell on launch row */
+  .dcell.busy { background: linear-gradient(180deg, var(--white) 0%, var(--paper) 100%); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">Writernical <span class="dot"></span> WorkEZ</div>
+  <div class="meta">Launch Plan <span class="dot"></span> v2.0 <span class="dot"></span> Brewing Edition</div>
+</div>
+
+<header class="hero">
+  <div class="eyebrow">7-Day Social Launch · Interactive Grid</div>
+  <h1 class="title">Something's <em>brewing</em> at WorkEZ. <span class="accent">(Not just the coffee.)</span></h1>
+  <p class="lede">A one-week build-up to the workez.in refresh, wrapped around an honest visual metaphor: <span class="strong">brewing</span>. A new website. A real cup. A sharper way to find your next office. Click any post to see copy, design direction, and a visual mockup.</p>
+  <div class="legend">
+    <span><i class="lg-tease"></i> Soft tease</span>
+    <span><i class="lg-why"></i> The why</span>
+    <span><i class="lg-light"></i> Light day</span>
+    <span><i class="lg-reveal"></i> Visual reveal</span>
+    <span><i class="lg-launch"></i> Launch</span>
+    <span><i class="lg-sustain"></i> Sustain / nudge</span>
+  </div>
+</header>
+
+<div class="grid-wrap">
+  <div class="grid" id="grid">
+    <div class="ghead">Day</div>
+    <div class="ghead platform">LinkedIn</div>
+    <div class="ghead platform">Instagram</div>
+    <div class="ghead platform">Facebook</div>
+    <div class="ghead platform">X</div>
+    <div class="ghead platform">Email</div>
+  </div>
+</div>
+
+<footer>
+  <div>Writernical · for WorkEZ · Chennai · Bangalore · Coimbatore</div>
+  <div class="right">☕ Brewed in one chat session</div>
+</footer>
+
+<div class="modal-back" id="modalBack">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <div class="modal-head-info">
+        <div class="modal-eyebrow" id="mEyebrow"></div>
+        <h2 class="modal-h" id="mTitle"></h2>
+        <div class="modal-sub" id="mSub"></div>
+      </div>
+      <button class="close-btn" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="section-label">Copy</div>
+        <div class="copy-text" id="mCopy"></div>
+        <div id="mCrossLinks"></div>
+      </div>
+      <div class="modal-section">
+        <div class="section-label">Visual mockup</div>
+        <div class="mockup-wrap" id="mMockup"></div>
+        <div class="section-label" style="margin-top: 24px;">Design direction</div>
+        <div class="design-text" id="mDesign"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ DATA ============
+const data = [
+  {
+    day: 'D-6', dow: 'Thu', phase: 'tease', phaseLabel: 'Soft tease',
+    posts: {
+      linkedin: [{
+        time: '9:00 AM IST',
+        summary: 'Soft tease post',
+        copy: "Something's brewing at WorkEZ.\n\n(And no, we don't just mean the coffee. Though there is that too.)\n\nStay tuned. ☕",
+        design: "Single image of a WorkEZ pantry coffee machine mid-pour. Steam rising from the cup. Warm low-key lighting. Subtle WorkEZ wordmark bottom-right. The word \u201CBrewing.\u201D in lowercase italic Fraunces in the bottom-left corner.",
+        scene: { type: 'photo', icon: '☕', headline: 'Brewing.', sub: 'WORKEZ', bg: 'coffee-photo' }
+      }],
+      instagram: [{
+        time: '12:00 PM IST',
+        summary: 'Mood carousel (5 slides) + 3 stories',
+        copy: "Brewing 6 days. ☕\n\n(Hint: it's not just the espresso.)\n\n#WorkEZ #PantryPerks #ManagedOfficeSpace #ComingSoon",
+        design: "Five-slide carousel that stays purely visual.\n• Slide 1: Wide shot of a WorkEZ pantry, coffee machine in focus.\n• Slide 2: Coffee filling the cup, cropped tight.\n• Slide 3: Cup placed on a desk in a quiet WorkEZ lounge.\n• Slide 4: Close-up of latte art or steam swirl.\n• Slide 5: Type-only slide reading \u201CSomething\u2019s brewing.\u201D in Fraunces italic on cream.\nStories: a 5-day countdown sticker, a centre detail, and a card reading \u201CWednesday.\u201D",
+        scene: { type: 'photo', icon: '☕', headline: "Something's brewing.", sub: '5 SLIDES', bg: 'coffee-photo', dots: true }
+      }],
+      facebook: [{
+        time: '1:30 PM IST',
+        summary: 'Cross-post IG mood carousel',
+        copy: "Something is brewing at WorkEZ. We have been quietly working on something for the last several months. Reveal next Wednesday. Stay tuned. ☕",
+        design: "Same carousel as Instagram. Caption rewritten with slightly more context since Facebook readers absorb longer text. No hashtags here. Tag the WorkEZ Chennai, Bangalore, and Coimbatore city pages if they exist.",
+        scene: { type: 'photo', icon: '☕', headline: "Something's brewing.", sub: 'WORKEZ', bg: 'coffee-photo', dots: true }
+      }],
+      x: [{
+        time: '9:00 AM IST',
+        summary: 'Cryptic single tweet',
+        copy: "Something's brewing at WorkEZ.\n\nYes, that includes the coffee. ☕\n\nBut also something else. Stay tuned.",
+        design: "No image, just text. The line-break rhythm carries the post. If you must attach a visual, use a tight close-up of an espresso pour with the WorkEZ wordmark cropped at the edge.",
+        scene: null
+      }],
+      email: []
+    }
+  },
+
+  {
+    day: 'D-5', dow: 'Fri', phase: 'why', phaseLabel: 'The why',
+    posts: {
+      linkedin: [{
+        time: '9:00 AM IST',
+        summary: '"Good things brew slow"',
+        copy: "Good things take time.\n\nLike a proper pour-over.\n\nOr rebuilding a website from scratch so finding your next office takes 3 clicks, not 13.\n\nReveal Wednesday. ☕",
+        design: "Split image. Left half: a slow precise pour-over at a WorkEZ pantry. Right half: a partially blurred screen showing a website in design view. A thin copper rule between them. Header line in Fraunces italic: \u201CGood things brew slow.\u201D",
+        scene: { type: 'split', icon: '☕', headline: 'Good things brew slow.', sub: 'WEDNESDAY', bg: 'cream' },
+        crossLink: { label: 'Page cross-link', body: 'Embed the workez.in/pantry-services URL inline on the next D-day post once live.' }
+      }],
+      instagram: [{
+        time: '11:30 AM IST',
+        summary: '"Brew slow" carousel + 3 stories',
+        copy: "The pantry never lies about timing. ☕\n\nWednesday at workez.in.\n\n#WorkEZ #PantryPerks #ManagedOfficeSpace",
+        design: "Six-slide carousel.\n• Slide 1: \u201CGood things brew slow.\u201D Fraunces italic on cream.\n• Slide 2: Photo of a pour-over at a WorkEZ pantry.\n• Slide 3: \u201CSome things you can\u2019t rush.\u201D\n• Slide 4: \u201CLike a good cup of coffee.\u201D\n• Slide 5: \u201COr a website that actually helps you find an office.\u201D\n• Slide 6: \u201CReveal: Wednesday. workez.in\u201D\nStories: a quote graphic, a centre photo, a countdown sticker for 5 days.",
+        scene: { type: 'type', headline: 'Good things\nbrew slow.', sub: 'WEDNESDAY', bg: 'cream', dots: true }
+      }],
+      facebook: [{
+        time: '1:30 PM IST',
+        summary: 'Cross-post IG carousel, longer caption',
+        copy: "Some things you cannot rush. A good cup of coffee. The right office for your team. Or a website that respects both. The new workez.in is live next Wednesday. Same WorkEZ. Sharper experience. ☕",
+        design: "Same carousel. Caption expanded for Facebook readers. Tag local WorkEZ city pages.",
+        scene: { type: 'type', headline: 'Good things\nbrew slow.', sub: 'WEDNESDAY', bg: 'cream', dots: true }
+      }],
+      x: [{
+        time: '9:00 AM IST',
+        summary: '4-tweet thread',
+        copy: "1/ Some things you can't rush.\n\n☕ A good pour-over.\n🏢 Finding the right office.\n💻 Rebuilding a website that respects both.\n\n— — —\n\n2/ Our old workez.in took 13 clicks to compare 3 offices.\n8 minutes of scrolling.\nThe pantry coffee was faster.\n\n— — —\n\n3/ So we rebuilt the site.\n3 clicks now.\nMobile-first.\nReal photos, real prices, real seat counts.\n\n— — —\n\n4/ Live next Wednesday at workez.in. ☕\n(The coffee will still take its time.)",
+        design: "Four-tweet thread. No image on tweets 1-3. Optional sneak peek attached to tweet 4 only.",
+        scene: { type: 'thread', count: 4 }
+      }],
+      email: []
+    }
+  },
+
+  {
+    day: 'D-4', dow: 'Sat', phase: 'light', phaseLabel: 'Light day',
+    posts: {
+      linkedin: [],
+      instagram: [{
+        time: '10:00 AM IST',
+        summary: '3 stories only',
+        copy: "Story 1 overlay: \"5 days.\"\nStory 2 overlay: \"Until then...\"\nStory 3 overlay: \"Wednesday.\"",
+        design: "Stories only, no grid post. Frame 1: coffee being poured, text \u201C5 days.\u201D Frame 2: a quiet WorkEZ lounge corner, text \u201CUntil then...\u201D Frame 3: navy card with cream text \u201CWednesday.\u201D",
+        scene: { type: 'story', icon: '☕', headline: '5 days.', bg: 'coffee-photo' }
+      }],
+      facebook: [{
+        time: 'Optional',
+        summary: 'Optional centre-of-the-week post',
+        copy: "Saturday\u2019s slow morning at the WorkEZ {centre name} lounge. Pantry on. Coffee fresh. The kind of weekend office Bengaluru founders quietly book for Sunday calls.",
+        design: "Single high-quality interior photo of one centre. Caption is location-specific. Skip if not staged ahead.",
+        scene: { type: 'photo', icon: '🏢', headline: 'Saturday at WorkEZ.', bg: 'coffee-photo' }
+      }],
+      x: [{
+        time: '12:00 PM IST',
+        summary: 'Single one-word tweet',
+        copy: "5 days. ☕",
+        design: "Just text. Use the cryptic mood as the design.",
+        scene: null
+      }],
+      email: []
+    }
+  },
+
+  {
+    day: 'D-3', dow: 'Sun', phase: 'light', phaseLabel: 'Light + Email 1',
+    posts: {
+      linkedin: [],
+      instagram: [{
+        time: '11:00 AM IST',
+        summary: 'Quote post + 2 stories',
+        copy: "Same WorkEZ. Sharper experience.\n\nWednesday. ☕",
+        design: "Single typographic post. Cream background, navy text, centred. A subtle coffee-cup line illustration as a watermark bottom-right. Stories: a quote graphic and a 3-day countdown sticker.",
+        scene: { type: 'type', headline: 'Same WorkEZ.\nSharper experience.', sub: 'WEDNESDAY', bg: 'cream' }
+      }],
+      facebook: [{
+        time: '12:00 PM IST',
+        summary: 'Cross-post IG quote',
+        copy: "Same WorkEZ. Sharper experience. The new workez.in goes live Wednesday. Bookmark it. ☕",
+        design: "Same quote post. Tag the three city pages.",
+        scene: { type: 'type', headline: 'Same WorkEZ.\nSharper experience.', sub: 'WEDNESDAY', bg: 'cream' }
+      }],
+      x: [{
+        time: '10:00 AM IST',
+        summary: 'Anticipation tweet',
+        copy: "3 days until workez.in goes live.\n\nThe coffee will be ready. The new site will be sharper. ☕",
+        design: "Text only.",
+        scene: null
+      }],
+      email: [{
+        time: '10:00 AM IST',
+        summary: 'Email 1 · Soft heads-up',
+        copy: "Subject: Pantry tip: brew slow, choose fast ☕\nPreview: A heads-up before Wednesday.\n\nHi {First Name},\n\nA small heads-up.\n\nWe have been quietly rebuilding workez.in for a while now.\n\nThe kind of rebuild that takes time. Like a good cup of pour-over. (Speaking of which, the pantry services across our 12 centres got an upgrade too. Premium coffee, barista-style setups, fresh snacks. Worth a look.)\n\nThe new workez.in goes live Wednesday.\n\nEasier centre comparisons. Faster tour booking. Mobile-first.\n\nIf you have been comparing managed office space in Chennai, Bangalore, or Coimbatore, save Wednesday.\n\nUntil then,\nTeam WorkEZ\n☕ Pantry-perfected since day one",
+        design: "Cream email background. Navy header bar with workez.in logo. A coffee cup icon as a section break. CTA button (espresso-coloured) reads \u201CExplore pantry services\u201D and links to /pantry-services. Light-touch footer with social icons.",
+        scene: { type: 'email', subject: 'Pantry tip: brew slow, choose fast ☕', preview: 'A heads-up before Wednesday.', body: 'Hi {First Name},\n\nA small heads-up. We have been quietly rebuilding workez.in.\n\nThe new site goes live Wednesday. Easier centre comparisons. Faster tour booking. Mobile-first.\n\nSpeaking of which, our pantry services got an upgrade too. Premium coffee at every centre.', btn: 'Explore pantry services →' },
+        crossLink: { label: 'Cross-links inside the email', body: 'workez.in/pantry-services · workez.in/amenities' }
+      }]
+    }
+  },
+
+  {
+    day: 'D-2', dow: 'Mon', phase: 'reveal', phaseLabel: 'Visual reveal',
+    posts: {
+      linkedin: [{
+        time: '9:00 AM IST',
+        summary: 'Sneak peek post',
+        copy: "The brew is almost ready. ☕\n\nHere is what's pouring on Wednesday:\n\n→ Find a centre in 3 clicks.\n→ Real photos, real prices, real seat counts.\n→ Tour booking in 3 clicks. Down from 13.\n→ Mobile-first. Because 60% of you find us on mobile.\n\n12 centres. 3 cities. One sharper way to compare them all.\n\nworkez.in. Wednesday.",
+        design: "Three-frame horizontal graphic of the new site (homepage, locality page, mobile booking). A small coffee-cup overlay graphic in the top-right with the line \u201CAlmost ready.\u201D in Fraunces italic.",
+        scene: { type: 'screenshot', headline: 'Almost ready.', sub: 'WEDNESDAY', bg: 'screen' }
+      }],
+      instagram: [{
+        time: '12:00 PM IST',
+        summary: 'Sneak peek carousel + 4 stories',
+        copy: "The brew is almost ready. ☕\n\nSneak peek of the new workez.in. Live Wednesday.\n\n#WorkEZ #ManagedOfficeSpace #ComingSoon",
+        design: "Six-slide carousel.\n• Slide 1: Hero screenshot, cropped and styled.\n• Slide 2: \u201CFind by city, locality, or budget.\u201D\n• Slide 3: \u201CTour booking in 3 clicks.\u201D\n• Slide 4: \u201CReal photos. Real pricing. Real seats.\u201D\n• Slide 5: \u201C12 centres. 3 cities. ☕ at all of them.\u201D\n• Slide 6: \u201CLive Wednesday. workez.in\u201D\nStories: screenshots paired with feature overlays + 2-day countdown.",
+        scene: { type: 'screenshot', headline: 'Sneak peek.', sub: 'WEDNESDAY', bg: 'screen', dots: true }
+      }],
+      facebook: [{
+        time: '2:00 PM IST',
+        summary: 'Cross-post LinkedIn sneak peek',
+        copy: "The brew is almost ready. Two days to go. Sneak peek of the new workez.in coming Wednesday. Easier centre comparisons. Faster tour booking. Real photos at every centre. ☕",
+        design: "Use the IG carousel here, longer caption. Tag local pages.",
+        scene: { type: 'screenshot', headline: 'Sneak peek.', sub: 'WEDNESDAY', bg: 'screen', dots: true }
+      }],
+      x: [{
+        time: '11:00 AM IST',
+        summary: 'Sneak peek tweet + screenshot',
+        copy: "The brew is almost ready. ☕\n\nSneak peek of workez.in:\n→ Centre comparison in 1 screen\n→ Tour booking in 3 clicks\n→ Real photos, prices, seat counts\n\nWednesday.",
+        design: "Attach one cropped hero screenshot.",
+        scene: { type: 'screenshot', headline: 'Almost ready.', bg: 'screen' }
+      }],
+      email: []
+    }
+  },
+
+  {
+    day: 'D-1', dow: 'Tue', phase: 'reveal', phaseLabel: 'Final hype',
+    posts: {
+      linkedin: [{
+        time: '10:00 AM IST',
+        summary: '"Tomorrow\'s pour" post',
+        copy: "Tomorrow's pour: a sharper workez.in. ☕\n\nIf you have been looking for managed office space in Chennai, Bangalore, or Coimbatore, tomorrow is the day.",
+        design: "A coffee cup with steam rising. The steam, in copper line-work, forms the letters \u201Cworkez.in\u201D. The line \u201CTomorrow\u2019s pour\u201D below in Fraunces italic.",
+        scene: { type: 'photo', icon: '☕', headline: "Tomorrow's pour.", sub: 'WORKEZ.IN', bg: 'coffee-photo' }
+      }],
+      instagram: [{
+        time: '7:00 PM IST',
+        summary: 'Dusk grid post + 3 stories',
+        copy: "Tomorrow's pour. ☕\n\nworkez.in",
+        design: "A single moody dusk shot of a WorkEZ centre with lights on, a coffee cup in the foreground on a desk. Overlay text bottom-left: \u201CTomorrow.\u201D Stories: countdown stickers at 24h, 12h, 6h, 1h.",
+        scene: { type: 'photo', icon: '🌙', headline: "Tomorrow's pour.", sub: 'WORKEZ.IN', bg: 'coffee-photo' }
+      }],
+      facebook: [{
+        time: '2:00 PM IST',
+        summary: 'Cross-post LinkedIn "Tomorrow"',
+        copy: "Tomorrow's pour. The new workez.in goes live. Same WorkEZ. Sharper experience. ☕",
+        design: "Same visual as LinkedIn.",
+        scene: { type: 'photo', icon: '☕', headline: "Tomorrow's pour.", sub: 'WORKEZ.IN', bg: 'coffee-photo' }
+      }],
+      x: [{
+        time: '5:00 PM IST',
+        summary: '"Tomorrow" tweet',
+        copy: "Tomorrow. ☕\n\nworkez.in",
+        design: "Text only, short.",
+        scene: null
+      }],
+      email: []
+    }
+  },
+
+  {
+    day: 'D-day', dow: 'Wed · LAUNCH', phase: 'launch', phaseLabel: 'LAUNCH',
+    posts: {
+      linkedin: [
+        {
+          time: '9:00 AM IST',
+          summary: 'Hero launch post',
+          copy: "It's brewed. ☕\n\nworkez.in is live.\n\nWhat's in the cup:\n\n☕ Find a centre in 3 clicks. City, locality, budget, seat count.\n☕ Real photos, real pricing, real seat counts. No stock images.\n☕ Tour booking in 3 clicks. Down from 13.\n☕ Mobile-first. Because 60% of you find us there.\n☕ 12 centres. 3 cities. Same team.\n\nSpeaking of perks, our pantry services got an upgrade too. Premium coffee, barista-style setups, fresh snacks. Because the upgrades shouldn't only be digital.\n\nSame WorkEZ. Sharper experience.\n\n🔗 workez.in\n☕ workez.in/pantry-services",
+          design: "Hero still: a desk with an open laptop showing the new workez.in homepage, and a fresh cup of WorkEZ pantry coffee beside it. Warm afternoon light. \u201CIt\u2019s brewed.\u201D in Fraunces italic, top-left corner. Small workez.in URL on the cup\u2019s saucer.",
+          scene: { type: 'photo', icon: '☕', headline: "It's brewed.", sub: 'WORKEZ.IN IS LIVE', bg: 'espresso' },
+          crossLink: { label: 'Cross-links', body: 'workez.in/pantry-services · workez.in/amenities · workez.in/locations' }
+        },
+        {
+          time: '2:00 PM IST',
+          summary: 'Feature carousel (10 slides)',
+          copy: "5 things that changed at workez.in. ☕\n\n(Plus one thing that got better in the pantry too.)\n\nSwipe to see.",
+          design: "Ten-slide LinkedIn carousel.\nSlides 1-2: Cover and intro line.\nSlides 3-4: Centre comparison feature, annotated screenshot.\nSlides 5-6: Real photos and pricing.\nSlide 7: 3-click tour booking with mobile screenshot.\nSlide 8: Mobile-first redesign.\nSlide 9: \u201CThe pantry got better too.\u201D Photo of upgraded coffee setup.\nSlide 10: CTA card with workez.in URL.",
+          scene: { type: 'screenshot', headline: '5 things changed.', sub: '10 SLIDES', bg: 'screen', dots: true }
+        }
+      ],
+      instagram: [
+        {
+          time: '9:00 AM IST',
+          summary: 'Launch carousel (10 slides)',
+          copy: "It's brewed. ☕\n\nworkez.in is live.\n\n12 centres. 3 cities. Real photos, real prices, real seat counts. Find your next office in 3 clicks.\n\nP.S. Our pantry got better too. ☕ Link in bio.\n\n#WorkEZ #PantryPerks #ManagedOfficeSpace #Chennai #Bangalore #Coimbatore",
+          design: "Ten-slide carousel matching the LinkedIn feature deck. Slide 1: \u201CIt\u2019s brewed. workez.in is live.\u201D in Fraunces italic on espresso. Slides 2-9: annotated screenshots of new site features. Slide 10: a flat-lay of a coffee cup beside a laptop showing the new homepage. CTA: \u201CLink in bio.\u201D",
+          scene: { type: 'photo', icon: '☕', headline: "It's brewed.", sub: 'WORKEZ.IN IS LIVE', bg: 'espresso', dots: true }
+        },
+        {
+          time: '4:00 PM IST',
+          summary: 'Echo post + 7 stories',
+          copy: "Live a few hours in. The coffee's still hot. The site is faster. ☕\n\nworkez.in (link in bio).",
+          design: "A flat-lay: an open laptop with the new workez.in homepage visible, a half-finished cup of WorkEZ pantry coffee, a notebook with the WorkEZ logo. Soft natural light from one side. Caption above is short. Stories run through the day with screenshots and the workez.in link sticker.",
+          scene: { type: 'photo', icon: '☕', headline: 'The coffee\nis still hot.', sub: 'WORKEZ.IN', bg: 'coffee-photo' }
+        }
+      ],
+      facebook: [
+        {
+          time: '9:00 AM IST',
+          summary: 'Hero post',
+          copy: "It is brewed. The new workez.in is live.\n\n12 centres across Chennai, Bangalore, and Coimbatore. Compare by city, locality, budget, or seat count. Real photos and pricing for every centre. Tour booking in 3 clicks.\n\nAnd yes, the pantry services got an upgrade too. Premium coffee, barista-style setups, fresh snacks at every centre. ☕\n\nSame WorkEZ. Sharper experience.\n\n🔗 workez.in",
+          design: "Same hero still as LinkedIn. Caption slightly more explanatory for FB.",
+          scene: { type: 'photo', icon: '☕', headline: "It's brewed.", sub: 'WORKEZ.IN IS LIVE', bg: 'espresso' }
+        },
+        {
+          time: '1:00 PM IST',
+          summary: 'Cross-post IG carousel + group push',
+          copy: "Sharing in case you missed it earlier today. The new workez.in is live with the full rebuild. Swipe through to see what changed. ☕",
+          design: "Cross-post the IG 10-slide carousel. Additionally, soft-post into Chennai, Bangalore, and Coimbatore business community groups with two sentences and a link only.",
+          scene: { type: 'screenshot', headline: 'Live now.', sub: '10 SLIDES', bg: 'screen', dots: true }
+        }
+      ],
+      x: [
+        {
+          time: '9:00 AM IST',
+          summary: '7-tweet launch thread',
+          copy: "1/ It's brewed. ☕\n\nworkez.in is live.\n\nThe full rebuild. Walk-through ↓\n\n— — —\n\n2/ 1. Find a centre in 3 clicks.\nCity, locality, budget, seat count. One screen.\nNo more brochure scrolling.\n\n— — —\n\n3/ 2. Real numbers.\nActual pricing. Actual seat counts. Photos of every centre.\nNo marketing fluff. (Like the coffee. We just serve it as it is.)\n\n— — —\n\n4/ 3. Mobile-first.\n60% of our visitors are on mobile.\nThe new site is built for them first.\n\n— — —\n\n5/ 4. Tour booking in 3 clicks.\nDown from 13. We timed it.\nFaster than a Nespresso pod.\n\n— — —\n\n6/ 5. 12 centres. 3 cities.\nChennai. Bangalore. Coimbatore.\n3,300+ seats. Flexi-desk to enterprise floors.\nAnd premium coffee at every one of them. ☕\n\n— — —\n\n7/ Same WorkEZ. Sharper experience.\n🔗 workez.in",
+          design: "Seven-tweet thread. Tweet 1 attaches the hero coffee-and-laptop image. Tweets 2-6 attach individual annotated screenshots. Tweet 7 attaches a CTA card.",
+          scene: { type: 'thread', count: 7 }
+        },
+        {
+          time: '2:00 PM IST',
+          summary: 'Follow-up single tweet',
+          copy: "One thing we obsessed over while rebuilding workez.in:\n\nMobile tour booking.\n\nOld site: 13 clicks. Form broken on mobile. People gave up.\nNew site: 3 clicks. Mobile-first. Calendar picker. Done in 30 seconds.\n\nFaster than your morning coffee. ☕",
+          design: "Attach one mobile screenshot of the tour booking flow.",
+          scene: { type: 'screenshot', headline: '3 clicks.\n30 seconds.', bg: 'screen' }
+        }
+      ],
+      email: [{
+        time: '10:00 AM IST',
+        summary: 'Email 2 · Launch',
+        copy: "Subject: It's brewed. workez.in is live ☕\nPreview: Same WorkEZ. Sharper experience.\n\nHi {First Name},\n\nIt's brewed.\n\nworkez.in is live with the full rebuild.\n\nWhat's in the cup ☕:\n✓ All 12 WorkEZ centres on one screen. Filter by city, locality, budget, seat count.\n✓ Real photos, real pricing, real seat counts. No stock images.\n✓ Tour booking in 3 clicks. We timed it. Faster than a Nespresso pod.\n✓ Mobile-first.\n\n[Visit workez.in]\n\nOr jump straight to your city:\n→ Chennai centres\n→ Bangalore centres\n→ Coimbatore centres\n\nA small bonus: our pantry services got an upgrade too. Premium coffee, barista-style setups, fresh snacks at every centre. Because the perks shouldn't only be digital.\n\n[Explore pantry services]\n\nSame team. Same 12 centres. Sharper way to find them.\n\nTeam WorkEZ\n☕ Now serving better in every way",
+        design: "Cream email body. Espresso-coloured CTA buttons. Hero image at top is the laptop-and-coffee flat-lay. Mid-email image is a pantry photo. Footer includes the workez.in logo and social icons.",
+        scene: { type: 'email', subject: "It's brewed. workez.in is live ☕", preview: 'Same WorkEZ. Sharper experience.', body: "Hi {First Name},\n\nIt's brewed. workez.in is live with the full rebuild.\n\nWhat's in the cup:\n✓ All 12 centres on one screen.\n✓ Real photos, real pricing.\n✓ Tour booking in 3 clicks.\n✓ Mobile-first.", btn: 'Visit workez.in →' },
+        crossLink: { label: 'Cross-links inside the email', body: 'workez.in · workez.in/pantry-services · workez.in/chennai · workez.in/bangalore · workez.in/coimbatore' }
+      }]
+    }
+  },
+
+  {
+    day: 'D+1', dow: 'Thu · Sustain', phase: 'sustain', phaseLabel: 'Sustain',
+    posts: {
+      linkedin: [{
+        time: '11:00 AM IST',
+        summary: 'Sustain post',
+        copy: "24 hours since workez.in went live.\n\n[Insert one specific number. Tours booked. Visitors. Most-viewed centre.]\n\nThe coffee is still hot. The site is still live. ☕\n\nworkez.in",
+        design: "A clean stat overlay graphic on a warm cream background. Stat in large Fraunces. A small espresso coffee cup illustration as a decorative bottom-right element.",
+        scene: { type: 'type', headline: '[Stat]', sub: '24 HOURS IN', bg: 'cream' }
+      }],
+      instagram: [{
+        time: '12:00 PM IST',
+        summary: 'Reaction post + 2 stories',
+        copy: "24 hours in. Pour another. ☕\n\nworkez.in (link in bio).",
+        design: "A flat-lay of an empty coffee cup and a laptop showing the new workez.in. Caption is short and warm. Stories: one stat overlay and one tip-format card.",
+        scene: { type: 'photo', icon: '☕', headline: 'Pour another.', sub: '24 HOURS IN', bg: 'coffee-photo' }
+      }],
+      facebook: [{
+        time: '2:00 PM IST',
+        summary: 'Cross-post LinkedIn sustain',
+        copy: "24 hours since the new workez.in went live. The response has been warm. The coffee is still hot. ☕",
+        design: "Same as LinkedIn.",
+        scene: { type: 'type', headline: '[Stat]', sub: '24 HOURS IN', bg: 'cream' }
+      }],
+      x: [{
+        time: '10:00 AM IST',
+        summary: 'Sustain tweet',
+        copy: "24 hours since workez.in went live.\n[Stat: tours booked / most-viewed centre]\n\nThe coffee is still flowing. ☕\nworkez.in",
+        design: "Text + optional stat graphic.",
+        scene: null
+      }],
+      email: []
+    }
+  },
+
+  {
+    day: 'D+7', dow: 'Wed · Nudge', phase: 'sustain', phaseLabel: 'Dormant nudge',
+    posts: {
+      linkedin: [],
+      instagram: [],
+      facebook: [],
+      x: [],
+      email: [{
+        time: '10:00 AM IST',
+        summary: 'Email 3 · Light nudge',
+        copy: "Subject: Found your next office yet? ☕\nPreview: A quick reminder, in case last week got busy.\n\nHi {First Name},\n\nIn case last week got busy, the new workez.in went live last Wednesday.\n\nOne thing we have noticed: the most-viewed centre this week has been {centre name}. Worth a look if you are hunting in that locality.\n\nBrowse all 12 centres at workez.in.\n\n[Book a tour in 3 clicks]\n\nP.S. The pantry is still pouring. ☕\n\nTeam WorkEZ",
+        design: "Light email. Short body. One hero image of the most-viewed centre. One CTA button. Footer with the pantry-services link as a soft P.S.",
+        scene: { type: 'email', subject: 'Found your next office yet? ☕', preview: 'A quick reminder, in case last week got busy.', body: "Hi {First Name},\n\nIn case last week got busy, workez.in went live with the full rebuild.\n\nThe most-viewed centre this week has been {centre name}. Worth a look.", btn: 'Book a tour in 3 clicks →' },
+        crossLink: { label: 'Cross-links', body: 'workez.in · workez.in/pantry-services' }
+      }]
+    }
+  }
+];
+
+const platforms = ['linkedin', 'instagram', 'facebook', 'x', 'email'];
+const platformLabels = { linkedin: 'LinkedIn', instagram: 'Instagram', facebook: 'Facebook', x: 'X', email: 'Email' };
+
+// ============ RENDER GRID ============
+function renderGrid() {
+  const grid = document.getElementById('grid');
+  data.forEach((row, rowIdx) => {
+    // Day cell
+    const dayCell = document.createElement('div');
+    dayCell.className = 'dcell day';
+    dayCell.innerHTML = `
+      <div class="day-label">${row.day}<span class="dow">${row.dow}</span></div>
+      <span class="phase ${row.phase}">${row.phaseLabel}</span>
+    `;
+    grid.appendChild(dayCell);
+
+    // Platform cells
+    platforms.forEach(p => {
+      const cell = document.createElement('div');
+      const posts = row.posts[p] || [];
+      if (posts.length === 0) {
+        cell.className = 'dcell empty';
+      } else {
+        cell.className = 'dcell busy';
+        posts.forEach((post, postIdx) => {
+          const postEl = document.createElement('div');
+          postEl.className = 'post';
+          postEl.onclick = () => openModal(rowIdx, p, postIdx);
+          postEl.innerHTML = `
+            <div class="post-meta">
+              <div class="post-time">${post.time}</div>
+              <div class="post-summary">${post.summary}</div>
+            </div>
+            <div class="info-btn" title="See copy and design">i</div>
+          `;
+          cell.appendChild(postEl);
+        });
+      }
+      grid.appendChild(cell);
+    });
+  });
+}
+
+// ============ MODAL ============
+function openModal(rowIdx, platform, postIdx) {
+  const row = data[rowIdx];
+  const post = row.posts[platform][postIdx];
+
+  document.getElementById('mEyebrow').innerHTML = `
+    <span>${row.day} ${row.dow}</span>
+    <span class="sep">/</span>
+    <span>${platformLabels[platform]}</span>
+    <span class="sep">/</span>
+    <span>${post.time}</span>
+  `;
+  document.getElementById('mTitle').textContent = post.summary;
+  document.getElementById('mSub').textContent = row.phaseLabel;
+  document.getElementById('mCopy').textContent = post.copy;
+  document.getElementById('mDesign').innerHTML = formatDesign(post.design);
+
+  // Cross-links
+  const crossDiv = document.getElementById('mCrossLinks');
+  if (post.crossLink) {
+    crossDiv.innerHTML = `
+      <div class="cross-links">
+        <strong>${post.crossLink.label}</strong>
+        ${post.crossLink.body}
+      </div>
+    `;
+  } else {
+    crossDiv.innerHTML = '';
+  }
+
+  // Mockup
+  document.getElementById('mMockup').innerHTML = renderMockup(platform, post);
+
+  document.getElementById('modalBack').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalBack').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modalBack').addEventListener('click', (e) => {
+  if (e.target.id === 'modalBack') closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+function formatDesign(text) {
+  if (!text) return '';
+  const lines = text.split('\n');
+  let html = '';
+  let inList = false;
+  lines.forEach(line => {
+    if (line.startsWith('•') || line.startsWith('\u2022')) {
+      if (!inList) { html += '<ul>'; inList = true; }
+      html += `<li>${line.replace(/^[•\u2022]\s*/, '')}</li>`;
+    } else {
+      if (inList) { html += '</ul>'; inList = false; }
+      if (line.trim()) html += `<p>${line}</p>`;
+    }
+  });
+  if (inList) html += '</ul>';
+  return html;
+}
+
+// ============ MOCKUPS ============
+function renderMockup(platform, post) {
+  if (!post.scene && platform === 'x') {
+    return renderXMockup(post);
+  }
+  if (post.scene && post.scene.type === 'thread') {
+    return renderThreadMockup(post);
+  }
+  if (post.scene && post.scene.type === 'email') {
+    return renderEmailMockup(post);
+  }
+  if (post.scene && post.scene.type === 'story') {
+    return renderStoryMockup(post);
+  }
+  switch(platform) {
+    case 'linkedin': return renderLinkedInMockup(post);
+    case 'instagram': return renderInstagramMockup(post);
+    case 'facebook': return renderFacebookMockup(post);
+    case 'x': return renderXMockup(post);
+    default: return '';
+  }
+}
+
+function renderScene(scene) {
+  if (!scene) return '';
+  const bg = scene.bg || 'navy';
+  if (scene.type === 'screenshot') {
+    return `<div class="scene bg-${bg}">
+      <div class="scene-content">
+        <div class="scene-screenshot">
+          <div class="ss-bar"></div>
+          <div class="ss-card"><div class="t1"></div><div class="t2"></div></div>
+          <div class="ss-card"><div class="t1"></div><div class="t2"></div></div>
+          <div class="ss-card"><div class="t1"></div><div class="t2"></div></div>
+        </div>
+        ${scene.headline ? `<div class="scene-headline">${scene.headline.replace(/\n/g, '<br>')}</div>` : ''}
+        ${scene.sub ? `<div class="scene-sub">${scene.sub}</div>` : ''}
+      </div>
+      ${scene.dots ? '<div class="carousel-dots">1/10 ●○○</div>' : ''}
+    </div>`;
+  }
+  return `<div class="scene bg-${bg}">
+    <div class="scene-content">
+      ${scene.icon ? `<div class="scene-icon">${scene.icon}</div>` : ''}
+      ${scene.headline ? `<div class="scene-headline">${scene.headline.replace(/\n/g, '<br>')}</div>` : ''}
+      ${scene.sub ? `<div class="scene-sub">${scene.sub}</div>` : ''}
+    </div>
+    ${scene.dots ? '<div class="carousel-dots">1/5 ●○○○○</div>' : ''}
+  </div>`;
+}
+
+function renderLinkedInMockup(post) {
+  const captionPreview = post.copy.split('\n').slice(0, 3).join('\n');
+  return `
+    <div class="mock mock-linkedin">
+      <div class="mh">
+        <div class="av">WE</div>
+        <div>
+          <div class="nm">WorkEZ</div>
+          <div class="mt">12,394 followers · Just now</div>
+        </div>
+      </div>
+      <div class="mb">${escapeHtml(captionPreview)}${post.copy.split('\n').length > 3 ? '\n…see more' : ''}</div>
+      <div class="mi">${renderScene(post.scene)}</div>
+      <div class="ma">
+        <span>👍 Like</span>
+        <span>💬 Comment</span>
+        <span>🔄 Repost</span>
+        <span>📤 Send</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderInstagramMockup(post) {
+  const captionPreview = post.copy.split('\n').slice(0, 2).join(' ');
+  return `
+    <div class="mock mock-ig">
+      <div class="mh">
+        <div class="av-ig"><div class="av-inner">w_</div></div>
+        <div class="nm">workez_</div>
+        <div class="more">⋯</div>
+      </div>
+      <div class="mi">${renderScene(post.scene)}</div>
+      <div class="ma">
+        <span>♡</span>
+        <span>💬</span>
+        <span>↪</span>
+        <span class="right">🔖</span>
+      </div>
+      <div class="mlikes">3,247 likes</div>
+      <div class="mcap"><b>workez_</b> ${escapeHtml(captionPreview).substring(0, 110)}…</div>
+    </div>
+  `;
+}
+
+function renderFacebookMockup(post) {
+  const captionPreview = post.copy.split('\n').slice(0, 4).join('\n');
+  return `
+    <div class="mock mock-fb">
+      <div class="mh">
+        <div class="av">WE</div>
+        <div>
+          <div class="nm">WorkEZ</div>
+          <div class="mt">Just now · 🌐</div>
+        </div>
+      </div>
+      <div class="mb">${escapeHtml(captionPreview)}</div>
+      <div class="mi">${renderScene(post.scene)}</div>
+      <div class="ma">
+        <span>👍 Like</span>
+        <span>💬 Comment</span>
+        <span>↗ Share</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderXMockup(post) {
+  const text = post.copy;
+  const hasImage = post.scene && post.scene.type !== 'type';
+  return `
+    <div class="mock mock-x">
+      <div class="mh">
+        <div class="av">WE</div>
+        <div>
+          <div class="nm-line"><b>WorkEZ</b> <span class="handle">@workez_in · Just now</span></div>
+          <div class="mb">${escapeHtml(text)}</div>
+          ${hasImage && post.scene ? `<div class="mi">${renderScene(post.scene)}</div>` : ''}
+          <div class="ma">
+            <span>💬 12</span>
+            <span>🔁 34</span>
+            <span>♡ 287</span>
+            <span>📊 1.2K</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderThreadMockup(post) {
+  const tweets = post.copy.split('— — —').map(t => t.trim()).filter(Boolean);
+  return tweets.slice(0, 3).map((tweet, i) => `
+    <div class="mock mock-x thread" ${i > 0 ? 'style="margin-top: -1px;"' : ''}>
+      <div class="mh">
+        <div class="av">WE</div>
+        <div style="flex: 1;">
+          <div class="nm-line"><b>WorkEZ</b> <span class="handle">@workez_in · ${i === 0 ? 'Just now' : (i + 1) + 'm'}</span></div>
+          <div class="mb">${escapeHtml(tweet)}</div>
+          <div class="ma">
+            <span>💬</span>
+            <span>🔁</span>
+            <span>♡</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    ${i < Math.min(tweets.length, 3) - 1 ? '<div class="thread-connector"></div>' : ''}
+  `).join('') + (tweets.length > 3 ? `<div style="text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--ink-mute); margin-top: 14px; text-transform: uppercase;">+ ${tweets.length - 3} more tweets in thread</div>` : '');
+}
+
+function renderStoryMockup(post) {
+  const scene = post.scene;
+  return `
+    <div class="mock-story scene bg-${scene.bg}" style="border-radius: 16px;">
+      <div class="story-bars">
+        <div class="bar active"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+      <div class="story-content">
+        <div class="scene-content">
+          ${scene.icon ? `<div class="scene-icon">${scene.icon}</div>` : ''}
+          ${scene.headline ? `<div class="scene-headline" style="font-size: 28px;">${scene.headline.replace(/\n/g, '<br>')}</div>` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderEmailMockup(post) {
+  const s = post.scene;
+  return `
+    <div class="mock mock-email">
+      <div class="ehead">
+        <div class="efrom">Team WorkEZ &lt;hello@workez.in&gt;</div>
+        <div class="esubject">${escapeHtml(s.subject)}</div>
+        <div class="epreview">${escapeHtml(s.preview)}</div>
+      </div>
+      <div class="ebody">${escapeHtml(s.body)}\n\n<a href="#" class="ebtn">${escapeHtml(s.btn)}</a></div>
+    </div>
+  `;
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+// Initial render
+renderGrid();
+</script>
+</body>
+</html>
