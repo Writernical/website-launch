@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorkEZ Refresh — Interactive Launch Grid v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #faf5e9;
+    --paper-2: #f3ecd8;
+    --ink: #181410;
+    --ink-soft: #4a4239;
+    --ink-mute: #7a6f63;
+    --navy: #142847;
+    --navy-soft: #243d63;
+    --crema: #e8d6a6;
+    --espresso: #5b2f12;
+    --espresso-2: #3a1d09;
+    --copper: #c2772a;
+    --copper-soft: #d99249;
+    --line: #d9cdb4;
+    --line-soft: #e5dcc4;
+    --white: #ffffff;
+    --shadow-sm: 0 1px 2px rgba(58, 29, 9, 0.06);
+    --shadow-md: 0 8px 24px rgba(58, 29, 9, 0.10);
+    --shadow-lg: 0 24px 60px rgba(58, 29, 9, 0.18);
+    --grain: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.36 0 0 0 0 0.20 0 0 0 0 0.05 0 0 0 0.06 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background-image: var(--grain);
+    opacity: 0.45;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 1;
+  }
+  body > * { position: relative; z-index: 2; }
+
+  /* ===== HEADER ===== */
+  .topbar {
+    background: var(--navy);
+    color: var(--paper);
+    padding: 14px 32px;
+    border-bottom: 4px solid var(--copper);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .topbar .brand { color: var(--crema); font-weight: 500; }
+  .topbar .meta { color: var(--paper); opacity: 0.7; }
+  .topbar .dot {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--copper); margin: 0 10px; vertical-align: middle;
+  }
+
+  header.hero {
+    padding: 70px 32px 36px;
+    max-width: 1480px; margin: 0 auto;
+    position: relative;
+  }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--copper); font-weight: 500;
+    margin-bottom: 14px;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::after {
+    content: ""; height: 1px; width: 60px; background: var(--copper);
+  }
+  h1.title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(48px, 7vw, 92px);
+    line-height: 0.95;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 18px;
+    max-width: 1000px;
+  }
+  h1.title em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--espresso);
+  }
+  h1.title .accent {
+    color: var(--copper);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .lede {
+    font-family: 'Fraunces', serif;
+    font-size: 19px; line-height: 1.55;
+    color: var(--ink-soft); font-weight: 400;
+    max-width: 720px;
+    margin-bottom: 8px;
+  }
+  .lede .strong { color: var(--ink); font-weight: 500; }
+  .legend {
+    margin-top: 28px;
+    display: flex; gap: 20px; flex-wrap: wrap;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend i {
+    width: 10px; height: 10px; display: inline-block; border-radius: 2px;
+  }
+  .lg-tease { background: var(--crema); }
+  .lg-why { background: var(--copper-soft); }
+  .lg-light { background: var(--line); }
+  .lg-reveal { background: var(--navy); }
+  .lg-launch { background: var(--espresso); }
+  .lg-sustain { background: var(--ink-mute); }
+
+  /* ===== GRID ===== */
+  .grid-wrap {
+    padding: 24px 32px 80px;
+    max-width: 1480px; margin: 0 auto;
+    overflow-x: auto;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 200px repeat(5, 1fr);
+    gap: 8px;
+    min-width: 1100px;
+  }
+  .ghead {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-mute); font-weight: 500;
+    padding: 14px 12px 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  .ghead.platform { color: var(--navy); font-weight: 600; }
+
+  .dayrow { display: contents; }
+  .dcell {
+    background: var(--white);
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
+    padding: 16px 14px;
+    min-height: 130px;
+    display: flex; flex-direction: column; gap: 10px;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+  .dcell.day {
+    background: transparent;
+    border: none;
+    padding: 18px 14px;
+    border-right: 1px solid var(--line);
+  }
+  .dcell.empty {
+    background: var(--paper-2);
+    opacity: 0.5;
+    border: 1px dashed var(--line);
+  }
+  .dcell.empty::after {
+    content: "·";
+    color: var(--ink-mute);
+    font-size: 32px;
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -65%);
+  }
+  .day-label {
+    font-family: 'Fraunces', serif;
+    font-size: 26px; font-weight: 600;
+    color: var(--ink); letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .day-label .dow {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-mute); font-weight: 400;
+    margin-top: 6px;
+  }
+  .phase {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 3px 8px 4px;
+    border-radius: 2px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    font-weight: 500;
+    color: var(--ink);
+    width: fit-content;
+  }
+  .phase.tease { background: var(--crema); }
+  .phase.why { background: var(--copper-soft); color: var(--espresso-2); }
+  .phase.light { background: var(--line); }
+  .phase.reveal { background: var(--navy); color: var(--paper); }
+  .phase.launch { background: var(--espresso); color: var(--paper); }
+  .phase.sustain { background: var(--ink-mute); color: var(--paper); }
+  .phase.email-only { background: var(--copper); color: var(--paper); }
+
+  .post {
+    background: var(--paper);
+    border: 1px solid var(--line-soft);
+    border-left: 3px solid var(--copper);
+    border-radius: 3px;
+    padding: 10px 12px;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .post:hover {
+    border-left-color: var(--espresso);
+    background: var(--paper-2);
+    transform: translateX(2px);
+  }
+  .post-meta { flex: 1; min-width: 0; }
+  .post-time {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 2px;
+  }
+  .post-summary {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px; line-height: 1.35;
+    color: var(--ink); font-weight: 500;
+  }
+  .info-btn {
+    width: 26px; height: 26px; flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--white);
+    border: 1px solid var(--line);
+    color: var(--espresso);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    line-height: 1;
+  }
+  .post:hover .info-btn {
+    background: var(--espresso);
+    color: var(--crema);
+    transform: rotate(360deg);
+  }
+
+  /* ===== MODAL ===== */
+  .modal-back {
+    position: fixed; inset: 0;
+    background: rgba(20, 14, 8, 0.55);
+    backdrop-filter: blur(4px);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 100;
+    display: flex; justify-content: center; align-items: center;
+    padding: 40px 20px;
+  }
+  .modal-back.show { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    width: 100%; max-width: 1080px;
+    max-height: 90vh; overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+  }
+  .modal-back.show .modal { transform: translateY(0); }
+  .modal-head {
+    padding: 28px 36px 20px;
+    border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 20px;
+    background: linear-gradient(180deg, var(--paper-2) 0%, var(--paper) 100%);
+  }
+  .modal-head-info { flex: 1; }
+  .modal-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--copper); font-weight: 500;
+    margin-bottom: 8px;
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .modal-eyebrow .sep { color: var(--line); }
+  .modal-h {
+    font-family: 'Fraunces', serif;
+    font-size: 32px; font-weight: 600; line-height: 1.1;
+    color: var(--ink); letter-spacing: -0.015em;
+    margin-bottom: 8px;
+  }
+  .modal-sub {
+    font-family: 'Fraunces', serif;
+    font-size: 16px; font-style: italic;
+    color: var(--ink-soft);
+  }
+  .modal-angle {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 4px 10px 5px;
+    background: var(--crema);
+    border-radius: 2px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--espresso-2);
+    font-weight: 500;
+  }
+  .close-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: var(--ink-soft);
+    transition: all 0.15s ease;
+  }
+  .close-btn:hover {
+    background: var(--espresso); color: var(--paper);
+    border-color: var(--espresso);
+  }
+  .modal-body {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 0;
+  }
+  .modal-section { padding: 32px 36px; }
+  .modal-section + .modal-section { border-left: 1px solid var(--line); }
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--copper); font-weight: 500;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after {
+    content: ""; flex: 1; height: 1px; background: var(--line);
+  }
+  .copy-text {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14.5px; line-height: 1.65;
+    color: var(--ink); white-space: pre-wrap;
+    background: var(--white);
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
+    padding: 20px 22px;
+    border-left: 3px solid var(--copper);
+  }
+  .design-text {
+    font-family: 'Fraunces', serif;
+    font-size: 14.5px; line-height: 1.7;
+    color: var(--ink-soft); font-style: italic;
+  }
+  .design-text .strong { font-weight: 600; font-style: normal; color: var(--ink); }
+  .design-text ul { margin: 12px 0 0 20px; }
+  .design-text li { margin: 6px 0; }
+
+  .cross-links {
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: var(--crema);
+    border-radius: 4px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 12.5px;
+    color: var(--espresso-2);
+  }
+  .cross-links strong {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--espresso); font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .cross-links a {
+    color: var(--espresso-2); text-decoration: underline;
+    text-decoration-color: var(--copper);
+    text-underline-offset: 3px;
+  }
+
+  /* ===== MOCKUPS ===== */
+  .mockup-wrap {
+    background: var(--paper-2);
+    padding: 32px 28px;
+    border-radius: 4px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .mock {
+    width: 100%; max-width: 380px;
+    background: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    font-size: 13px;
+  }
+
+  /* LinkedIn mockup */
+  .mock-linkedin { border: 1px solid #d6d8dc; }
+  .mock-linkedin .mh {
+    padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+  .mock-linkedin .av {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy), var(--espresso));
+    color: var(--crema);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 600; font-size: 16px;
+  }
+  .mock-linkedin .nm { font-weight: 600; font-size: 14px; color: #000; }
+  .mock-linkedin .mt { font-size: 11px; color: #666; }
+  .mock-linkedin .mb {
+    padding: 0 14px 12px;
+    font-family: -apple-system, system-ui, sans-serif;
+    font-size: 13.5px; line-height: 1.5; color: #000;
+    white-space: pre-wrap;
+  }
+  .mock-linkedin .mi {
+    aspect-ratio: 1.91;
+    background: var(--navy);
+    color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .mock-linkedin .ma {
+    padding: 8px 14px; border-top: 1px solid #eaeaea;
+    font-size: 11px; color: #666;
+    display: flex; gap: 14px;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+
+  /* Instagram mockup */
+  .mock-ig { border: 1px solid #dbdbdb; }
+  .mock-ig .mh {
+    padding: 11px 12px;
+    display: flex; align-items: center; gap: 10px;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+  .mock-ig .av-ig {
+    width: 32px; height: 32px; border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  }
+  .mock-ig .av-inner {
+    width: 100%; height: 100%; border-radius: 50%;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 12px; color: var(--espresso); font-weight: 600;
+  }
+  .mock-ig .nm { font-weight: 600; font-size: 13px; flex: 1; }
+  .mock-ig .more { color: #262626; font-size: 18px; }
+  .mock-ig .mi {
+    aspect-ratio: 1;
+    background: var(--espresso);
+    color: var(--crema);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .mock-ig .ma {
+    padding: 10px 12px 4px;
+    display: flex; gap: 14px;
+    font-size: 22px; color: #262626;
+  }
+  .mock-ig .ma .right { margin-left: auto; }
+  .mock-ig .mlikes {
+    padding: 0 12px 4px;
+    font-size: 13px; font-weight: 600;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+  .mock-ig .mcap {
+    padding: 0 12px 12px;
+    font-size: 13px; line-height: 1.4;
+    font-family: -apple-system, system-ui, sans-serif;
+    white-space: pre-wrap;
+  }
+  .mock-ig .mcap b { font-weight: 600; }
+  .carousel-dots {
+    position: absolute; top: 12px; right: 12px;
+    background: rgba(0,0,0,0.6); color: var(--white);
+    padding: 4px 9px; border-radius: 12px;
+    font-family: -apple-system, system-ui, sans-serif;
+    font-size: 11px; font-weight: 500;
+  }
+
+  /* Story */
+  .mock-story {
+    aspect-ratio: 9/16;
+    max-width: 240px;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    background: var(--espresso);
+    color: var(--paper);
+  }
+  .story-bars {
+    position: absolute; top: 8px; left: 8px; right: 8px;
+    display: flex; gap: 4px; z-index: 3;
+  }
+  .story-bars .bar {
+    height: 2px; flex: 1;
+    background: rgba(255,255,255,0.4); border-radius: 1px;
+  }
+  .story-bars .bar.active { background: var(--white); }
+  .story-content {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 50px 24px;
+    text-align: center;
+  }
+
+  /* Facebook */
+  .mock-fb { border: 1px solid #ced0d4; }
+  .mock-fb .mh {
+    padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+  .mock-fb .av {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy), var(--espresso));
+    color: var(--crema);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+  }
+  .mock-fb .nm { font-weight: 600; font-size: 14px; color: #1c1e21; }
+  .mock-fb .mt { font-size: 12px; color: #65676b; }
+  .mock-fb .mb {
+    padding: 0 14px 12px;
+    font-size: 14px; line-height: 1.5; color: #1c1e21;
+    font-family: -apple-system, system-ui, sans-serif;
+    white-space: pre-wrap;
+  }
+  .mock-fb .mi {
+    aspect-ratio: 1.91;
+    background: var(--navy);
+    color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mock-fb .ma {
+    padding: 8px 14px; border-top: 1px solid #ced0d4;
+    font-size: 13px; color: #65676b;
+    display: flex; justify-content: space-around;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+
+  /* X */
+  .mock-x {
+    border: 1px solid #cfd9de;
+    background: var(--white);
+    padding: 14px 16px;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+  .mock-x .mh {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 4px;
+  }
+  .mock-x .av {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy), var(--espresso));
+    color: var(--crema); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+  }
+  .mock-x .nm-line { font-size: 14px; line-height: 1.3; }
+  .mock-x .nm-line b { font-weight: 700; color: #0f1419; }
+  .mock-x .nm-line .handle { color: #536471; }
+  .mock-x .mb {
+    font-size: 15px; line-height: 1.45;
+    color: #0f1419;
+    margin: 4px 0 10px;
+    white-space: pre-wrap;
+  }
+  .mock-x .mi {
+    aspect-ratio: 16/9;
+    background: var(--navy);
+    color: var(--paper);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .mock-x .ma {
+    display: flex; gap: 32px;
+    font-size: 13px; color: #536471;
+    margin-top: 10px;
+  }
+  .thread-connector {
+    width: 2px; height: 16px;
+    background: #cfd9de;
+    margin-left: 33px;
+  }
+
+  /* Email */
+  .mock-email {
+    border: 1px solid #d8dee4;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+  .mock-email .ehead {
+    padding: 14px 18px;
+    background: var(--paper-2);
+    border-bottom: 1px solid var(--line);
+  }
+  .mock-email .efrom { font-size: 12px; color: var(--ink-mute); margin-bottom: 4px; }
+  .mock-email .esubject {
+    font-family: 'Fraunces', serif;
+    font-size: 18px; font-weight: 600;
+    color: var(--ink); line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .mock-email .epreview { font-size: 12.5px; color: var(--ink-soft); font-style: italic; }
+  .mock-email .ebody {
+    padding: 22px 20px 24px;
+    font-size: 13px; line-height: 1.6;
+    color: var(--ink); white-space: pre-wrap;
+    background: var(--white);
+  }
+  .mock-email .ebtn {
+    display: inline-block;
+    padding: 10px 18px;
+    background: var(--espresso);
+    color: var(--paper) !important;
+    border-radius: 4px;
+    font-size: 12.5px; font-weight: 600;
+    text-decoration: none;
+    margin: 6px 0;
+    letter-spacing: 0.02em;
+  }
+
+  /* Visual scenes */
+  .scene {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 18px;
+  }
+  .scene-content { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .scene-icon {
+    font-size: 56px; line-height: 1;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+  }
+  .scene-headline {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .scene-headline em { font-style: italic; }
+  .scene-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .scene.bg-navy { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%); color: var(--paper); }
+  .scene.bg-espresso { background: linear-gradient(135deg, var(--espresso-2) 0%, var(--espresso) 100%); color: var(--crema); }
+  .scene.bg-cream { background: linear-gradient(135deg, var(--paper) 0%, var(--crema) 100%); color: var(--ink); }
+  .scene.bg-copper { background: linear-gradient(135deg, var(--copper) 0%, var(--copper-soft) 100%); color: var(--white); }
+  .scene.bg-coffee-photo {
+    background:
+      radial-gradient(circle at 30% 30%, rgba(255,220,160,0.15), transparent 50%),
+      linear-gradient(135deg, #2a1a0a 0%, #4a2c14 60%, #1a0e04 100%);
+    color: var(--crema);
+  }
+  .scene.bg-centre-photo {
+    background:
+      radial-gradient(circle at 70% 40%, rgba(232, 214, 166, 0.2), transparent 60%),
+      linear-gradient(135deg, #243d63 0%, #142847 70%, #0a1a32 100%);
+    color: var(--crema);
+  }
+  .scene.bg-screen {
+    background: linear-gradient(180deg, var(--paper) 0%, var(--paper-2) 100%);
+    color: var(--ink);
+  }
+
+  /* Split-scene (left/right halves) */
+  .scene.bg-split {
+    background: var(--paper);
+    color: var(--ink);
+    padding: 0;
+  }
+  .split-half {
+    position: absolute; top: 0; bottom: 0;
+    width: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .split-half.left { left: 0; background: linear-gradient(135deg, #2a1a0a, #4a2c14); color: var(--crema); }
+  .split-half.right { right: 0; background: linear-gradient(135deg, var(--paper), var(--paper-2)); color: var(--ink); }
+  .split-divider {
+    position: absolute;
+    top: 10%; bottom: 10%; left: 50%;
+    width: 1px;
+    background: var(--copper);
+    transform: translateX(-50%);
+  }
+  .split-overlay {
+    position: absolute; bottom: 14px; left: 0; right: 0;
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ink-soft);
+    z-index: 4;
+    background: rgba(250, 245, 233, 0.95);
+    padding: 6px 12px;
+    border-top: 1px solid var(--line);
+  }
+
+  /* Screenshot mock */
+  .scene-screenshot {
+    width: 100%; max-width: 280px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+  .scene-screenshot .ss-bar {
+    height: 8px; background: var(--paper-2); border-radius: 2px;
+    margin-bottom: 6px; width: 60%;
+  }
+  .scene-screenshot .ss-card {
+    background: var(--paper); padding: 8px; border-radius: 3px;
+    margin-bottom: 4px;
+  }
+  .scene-screenshot .ss-card .t1 { height: 6px; background: var(--navy); width: 50%; border-radius: 1px; margin-bottom: 4px; }
+  .scene-screenshot .ss-card .t2 { height: 4px; background: var(--ink-mute); width: 70%; border-radius: 1px; }
+
+  /* Old-vs-new screenshot pair */
+  .scene-oldnew {
+    display: flex; gap: 12px;
+    width: 100%; max-width: 280px;
+  }
+  .scene-oldnew .pane {
+    flex: 1;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  .scene-oldnew .pane.old { opacity: 0.5; filter: grayscale(0.8); }
+  .scene-oldnew .pane .label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 6px;
+  }
+  .scene-oldnew .pane .bar {
+    height: 4px; background: var(--ink); width: 60%;
+    margin-bottom: 4px; border-radius: 1px;
+  }
+  .scene-oldnew .pane .bar.muted { background: var(--ink-mute); }
+  .scene-oldnew .pane .row { height: 4px; background: var(--paper-2); border-radius: 1px; margin-bottom: 3px; }
+  .scene-oldnew .pane.new .bar { background: var(--copper); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 40px 32px 60px;
+    max-width: 1480px; margin: 0 auto;
+    border-top: 1px solid var(--line);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  footer .right { color: var(--espresso); font-weight: 500; }
+
+  .post + .post { margin-top: 6px; }
+  .dcell.busy { background: linear-gradient(180deg, var(--white) 0%, var(--paper) 100%); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">Writernical <span class="dot"></span> WorkEZ</div>
+  <div class="meta">Launch Plan <span class="dot"></span> v3.0 <span class="dot"></span> Launch Wednesday</div>
+</div>
+
+<header class="hero">
+  <div class="eyebrow">Launch Wednesday, May 20 · Interactive Grid</div>
+  <h1 class="title"><em>Same</em> WorkEZ. <span class="accent">Sharper everything.</span></h1>
+  <p class="lede">The new <span class="strong">workez.in</span> goes live in <span class="strong">48 hours</span>. Three days of social and email across LinkedIn, Instagram, Facebook, X, and email. Today is a cold reveal since there is no prior warmup. Click any post to see copy, design direction, and a visual mockup.</p>
+  <div class="legend">
+    <span><i class="lg-reveal"></i> Visual reveal</span>
+    <span><i class="lg-launch"></i> Launch</span>
+    <span><i class="lg-sustain"></i> Sustain / nudge</span>
+  </div>
+</header>
+
+<div class="grid-wrap">
+  <div class="grid" id="grid">
+    <div class="ghead">Day</div>
+    <div class="ghead platform">LinkedIn</div>
+    <div class="ghead platform">Instagram</div>
+    <div class="ghead platform">Facebook</div>
+    <div class="ghead platform">X</div>
+    <div class="ghead platform">Email</div>
+  </div>
+</div>
+
+<footer>
+  <div>Writernical · for WorkEZ · Chennai · Bangalore · Coimbatore</div>
+  <div class="right">v2.1 · Refresh-led, with restraint</div>
+</footer>
+
+<div class="modal-back" id="modalBack">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <div class="modal-head-info">
+        <div class="modal-eyebrow" id="mEyebrow"></div>
+        <h2 class="modal-h" id="mTitle"></h2>
+        <div class="modal-sub" id="mSub"></div>
+        <div class="modal-angle" id="mAngle"></div>
+      </div>
+      <button class="close-btn" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="section-label">Copy</div>
+        <div class="copy-text" id="mCopy"></div>
+        <div id="mCrossLinks"></div>
+      </div>
+      <div class="modal-section">
+        <div class="section-label">Visual mockup</div>
+        <div class="mockup-wrap" id="mMockup"></div>
+        <div class="section-label" style="margin-top: 24px;">Design direction</div>
+        <div class="design-text" id="mDesign"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ DATA ============
+// Theme mix per post:
+//  • new-look    = the website refresh itself (lead story, most posts)
+//  • benefit     = customer-job framing (3 clicks, mobile-first)
+//  • centre      = a real WorkEZ centre as the visual
+//  • brewing     = the coffee thread (used in only 5 places, sparingly)
+//  • milestone   = pure timing / countdown
+//  • reaction    = post-launch echo
+const data = [
+  {
+    day: 'Today', dow: 'Mon · May 18', phase: 'reveal', phaseLabel: 'Cold reveal',
+    posts: {
+      linkedin: [{
+        time: '9:00 AM IST · Today',
+        angle: 'new-look · benefit',
+        summary: 'Cold reveal post (no warmup behind it)',
+        copy: "In 48 hours, workez.in changes.\n\nSame 12 centres. Same Chennai, Bangalore, Coimbatore. Sharper way to find them.\n\nSneak peek:\n\n→ Find a centre in 3 clicks. Down from 13.\n→ Real photos, real prices, real seat counts at every centre.\n→ Tour booking in 3 clicks.\n→ Mobile-first.\n\nWednesday.",
+        design: "Three horizontal screenshot frames showing the new workez.in. Frame 1: homepage hero. Frame 2: a locality listing page. Frame 3: the mobile tour-booking flow. A small copper-coloured “48h” badge in the top-right. Tag line beneath: “Same WorkEZ. Sharper experience.”",
+        scene: { type: 'screenshot', headline: '48 hours.', sub: 'WEDNESDAY', bg: 'screen' }
+      }],
+      instagram: [{
+        time: '12:00 PM IST · Today',
+        angle: 'new-look · benefit',
+        summary: 'Sneak peek carousel + 3 stories',
+        copy: "48 hours to a sharper workez.in. ✨\n\nSame 12 centres. Sharper way to find them.\n\nLink in bio.\n\n#WorkEZ #ManagedOfficeSpace #Chennai #Bangalore #Coimbatore",
+        design: "Six-slide carousel.\n• Slide 1: “Something is changing at workez.in.” Bold type on cream.\n• Slide 2: Hero screenshot of the new homepage.\n• Slide 3: “Find by city, locality, or budget.” Filter view screenshot.\n• Slide 4: “Tour booking in 3 clicks. Down from 13.” Mobile screenshot.\n• Slide 5: “Real photos. Real prices. Real seats.” Centre page screenshot.\n• Slide 6: “Live Wednesday. workez.in”\nStories: hero screenshot + Link sticker, one feature, a 48h countdown sticker.",
+        scene: { type: 'screenshot', headline: 'Sneak peek.', sub: '48 HOURS', bg: 'screen', dots: true }
+      }],
+      facebook: [{
+        time: '2:00 PM IST · Today',
+        angle: 'new-look',
+        summary: 'Cross-post IG carousel with longer caption',
+        copy: "In 48 hours, workez.in goes live with the full refresh.\n\nSame 12 centres across Chennai, Bangalore, and Coimbatore. Sharper way to compare them. Find a centre in 3 clicks. Real photos, real pricing, real seat counts at every centre. Tour booking in 3 clicks. Mobile-first.\n\nBookmark Wednesday.",
+        design: "Same six-slide carousel as Instagram. Caption longer. Tag the three city pages.",
+        scene: { type: 'screenshot', headline: 'Sneak peek.', sub: '48 HOURS', bg: 'screen', dots: true }
+      }],
+      x: [{
+        time: '11:00 AM IST · Today',
+        angle: 'new-look · benefit',
+        summary: 'Reveal tweet + screenshot',
+        copy: "In 48 hours, the new workez.in goes live.\n\n→ Centre comparison in 1 screen\n→ Tour booking in 3 clicks\n→ Real photos and prices at every centre\n→ Mobile-first\n\nWednesday.",
+        design: "Attach one cropped hero screenshot of the new homepage.",
+        scene: { type: 'screenshot', headline: '48 hours.', bg: 'screen' }
+      }],
+      email: [{
+        time: '4:00 PM IST · Today',
+        angle: 'new-look · brewing P.S.',
+        summary: 'Email 1 · Heads-up',
+        copy: "Subject: In 48 hours, workez.in changes\nPreview: Same WorkEZ. Sharper way to find us.\n\nHi {First Name},\n\nA heads-up.\n\nIn 48 hours, the new workez.in goes live.\n\nSame 12 centres. Same Chennai, Bangalore, and Coimbatore. Sharper way to find them.\n\nWhat changes for you:\n✓ Find a centre in 3 clicks. Down from 13.\n✓ Compare all 12 centres on one screen.\n✓ Real photos, real pricing, real seat counts at every centre.\n✓ Mobile-first.\n\nIf you have been searching for managed office space in any of our three cities, bookmark Wednesday. We will send you the walkthrough then.\n\nP.S. While we are on the subject of upgrades, our pantry services got a refresh too. Premium coffee at every centre. ☕\n\nUntil then,\nTeam WorkEZ",
+        design: "Clean cream email. Navy header bar with the workez.in logo. Hero image: a single screenshot of the new homepage with a “WEDNESDAY” tag. Single CTA button in espresso colour: “Bookmark for Wednesday →” linking to the homepage. P.S. block at the bottom with a soft secondary link to /pantry-services.",
+        scene: { type: 'email', subject: 'In 48 hours, workez.in changes', preview: 'Same WorkEZ. Sharper way to find us.', body: "Hi {First Name},\n\nA heads-up.\n\nIn 48 hours, the new workez.in goes live. Same 12 centres. Sharper way to find them.\n\nFind a centre in 3 clicks. Real photos, real prices. Mobile-first.\n\nP.S. The pantry services got a refresh too. ☕", btn: 'Bookmark for Wednesday →' },
+        crossLink: { label: 'Cross-link as a P.S.', body: 'workez.in/pantry-services' }
+      }]
+    }
+  },
+  {
+    day: 'Tomorrow', dow: 'Tue · May 19', phase: 'reveal', phaseLabel: 'Final hype',
+    posts: {
+      linkedin: [{
+        time: '10:00 AM IST · Tomorrow',
+        angle: 'milestone',
+        summary: '"Tomorrow" post',
+        copy: "Tomorrow.\n\nThe new workez.in goes live.\n\nIf you have been comparing managed office space in Chennai, Bangalore, or Coimbatore, tomorrow is the day.",
+        design: "Bold “Tomorrow.” in Fraunces, set large on cream paper. The workez.in URL in monospace beneath. Generous negative space. A single thin copper rule above and below the URL.",
+        scene: { type: 'type', headline: 'Tomorrow.', sub: 'WORKEZ.IN', bg: 'cream' }
+      }],
+      instagram: [{
+        time: '7:00 PM IST · Tomorrow',
+        angle: 'centre · milestone',
+        summary: 'Dusk centre post + 4 stories',
+        copy: "Tomorrow.\n\nworkez.in 🌙",
+        design: "A moody dusk shot of a WorkEZ centre with interior lights coming on. Overlay text bottom-left in Fraunces italic: “Tomorrow.” If a dusk centre photo is not staged, fall back to the type-led “Tomorrow.” graphic from LinkedIn. Stories: 4 frames with countdown stickers at 24h, 12h, 6h, 1h spread through the day.",
+        scene: { type: 'photo', icon: '🌙', headline: 'Tomorrow.', sub: 'WORKEZ.IN', bg: 'centre-photo' }
+      }],
+      facebook: [{
+        time: '2:00 PM IST · Tomorrow',
+        angle: 'milestone',
+        summary: 'Cross-post "Tomorrow"',
+        copy: "Tomorrow. The new workez.in goes live. Same WorkEZ. Sharper experience.",
+        design: "Same as LinkedIn.",
+        scene: { type: 'type', headline: 'Tomorrow.', sub: 'WORKEZ.IN', bg: 'cream' }
+      }],
+      x: [{
+        time: '5:00 PM IST · Tomorrow',
+        angle: 'milestone',
+        summary: '"Tomorrow" tweet',
+        copy: "Tomorrow.\n\nworkez.in",
+        design: "Text only. Short.",
+        scene: null
+      }],
+      email: [{
+        time: '9:00 AM IST · Tomorrow',
+        angle: 'milestone',
+        summary: 'Email 2 · Short reminder',
+        copy: "Subject: Tomorrow.\nPreview: workez.in goes live.\n\nHi {First Name},\n\nQuick note.\n\nThe new workez.in goes live tomorrow.\n\nIf you have been comparing managed office space in Chennai, Bangalore, or Coimbatore, tomorrow is the day. We will send you the walkthrough then.\n\nSee you in the morning.\n\nTeam WorkEZ",
+        design: "Minimal email. Cream background. Single hero text block: “Tomorrow.” in large Fraunces italic. The body sits beneath in clean small type. No CTA button. No images. The restraint is the design.",
+        scene: { type: 'email', subject: 'Tomorrow.', preview: 'workez.in goes live.', body: "Hi {First Name},\n\nQuick note.\n\nThe new workez.in goes live tomorrow.\n\nIf you have been comparing managed office space in Chennai, Bangalore, or Coimbatore, tomorrow is the day.\n\nSee you in the morning.\n\nTeam WorkEZ", btn: '—' }
+      }]
+    }
+  },
+  {
+    day: 'Wednesday', dow: 'Wed · May 20 · LAUNCH', phase: 'launch', phaseLabel: 'LAUNCH',
+    posts: {
+      linkedin: [
+        {
+          time: '9:00 AM IST',
+          angle: 'new-look · benefit',
+          summary: 'Hero launch post',
+          copy: "workez.in is live.\n\nThe full refresh. Same 12 centres. A sharper way to find them.\n\nWhat changed:\n\n• Find a centre in 3 clicks. City, locality, budget, seat count.\n• Real photos, real pricing, real seat counts. No stock images.\n• Tour booking in 3 clicks. Down from 13.\n• Mobile-first.\n• Faster pages. Cleaner design. Less marketing speak.\n\n12 centres. 3 cities. Same team.\n\nSharper way to find your next office.\n\n🔗 workez.in",
+          design: "A clean hero screenshot of the new workez.in homepage on a laptop, with the URL bar visible. Warm afternoon light from one side. Optional: a small “LIVE” badge in the corner.",
+          scene: { type: 'screenshot', headline: 'workez.in is live.', sub: 'THE FULL REFRESH', bg: 'screen' },
+          crossLink: { label: 'Cross-links', body: 'workez.in/locations · workez.in/amenities · workez.in/pantry-services' }
+        },
+        {
+          time: '2:00 PM IST',
+          angle: 'new-look · benefit',
+          summary: 'Feature carousel (10 slides)',
+          copy: "5 things that changed at workez.in.\n\nSwipe to see.",
+          design: "Ten-slide LinkedIn carousel.\nSlides 1–2: cover and intro line.\nSlides 3–4: centre comparison feature with annotated screenshot.\nSlides 5–6: real photos and pricing.\nSlide 7: 3-click tour booking with mobile screenshot.\nSlide 8: mobile-first redesign.\nSlide 9: faster pages, performance numbers.\nSlide 10: CTA card with workez.in URL.",
+          scene: { type: 'screenshot', headline: '5 things changed.', sub: '10 SLIDES', bg: 'screen', dots: true }
+        }
+      ],
+      instagram: [
+        {
+          time: '9:00 AM IST',
+          angle: 'new-look · brewing P.S.',
+          summary: 'Launch carousel (10 slides)',
+          copy: "It is here. ✨\n\nThe new workez.in is live.\n\n12 centres. 3 cities. Real photos, real prices, real seat counts. Find your next office in 3 clicks.\n\n(Also: the pantry coffee is still hot. ☕)\n\nLink in bio.\n\n#WorkEZ #ManagedOfficeSpace #Chennai #Bangalore #Coimbatore",
+          design: "Ten-slide carousel matching the LinkedIn feature deck. Slide 1: “It is here. workez.in is live.” in Fraunces italic on cream. Slides 2–9: annotated screenshots of new site features. Slide 10: a clean flat-lay (laptop with the new homepage visible, notebook beside it). CTA: “Link in bio.”",
+          scene: { type: 'screenshot', headline: 'It is here.', sub: 'WORKEZ.IN IS LIVE', bg: 'screen', dots: true }
+        },
+        {
+          time: '4:00 PM IST',
+          angle: 'reaction',
+          summary: 'Echo post + 7 stories',
+          copy: "Live a few hours in. The response has been warm.\n\nIf you missed it, the refresh is here. Link in bio.",
+          design: "A clean flat-lay or screenshot composition. Two valid options: (a) a laptop with workez.in homepage visible, notebook beside it, in warm natural light, or (b) a 3-frame screenshot collage of the top features. Stories run through the day with screenshots + the workez.in link sticker.",
+          scene: { type: 'screenshot', headline: 'Live a few hours in.', sub: 'WORKEZ.IN', bg: 'screen' }
+        }
+      ],
+      facebook: [
+        {
+          time: '9:00 AM IST',
+          angle: 'new-look · benefit',
+          summary: 'Hero post',
+          copy: "The new workez.in is live.\n\n12 centres across Chennai, Bangalore, and Coimbatore. Compare by city, locality, budget, or seat count. Real photos and pricing for every centre. Tour booking in 3 clicks.\n\nSame WorkEZ. Sharper experience.\n\n🔗 workez.in",
+          design: "Same hero screenshot as LinkedIn. Caption slightly longer for FB.",
+          scene: { type: 'screenshot', headline: 'workez.in is live.', sub: 'THE FULL REFRESH', bg: 'screen' }
+        },
+        {
+          time: '1:00 PM IST',
+          angle: 'new-look',
+          summary: 'Cross-post IG carousel + group push',
+          copy: "Sharing in case you missed it earlier. The new workez.in is live with the full refresh. Swipe through to see what changed.",
+          design: "Cross-post the IG 10-slide carousel. Additionally, soft-post into Chennai, Bangalore, and Coimbatore business community groups with two sentences and a link only.",
+          scene: { type: 'screenshot', headline: 'Live now.', sub: '10 SLIDES', bg: 'screen', dots: true }
+        }
+      ],
+      x: [
+        {
+          time: '9:00 AM IST',
+          angle: 'new-look · benefit · brewing aside',
+          summary: '7-tweet launch thread',
+          copy: "1/ workez.in is live. ✨\n\nThe full refresh. Walk-through ↓\n\n— — —\n\n2/ 1. Centre comparison in one screen.\n\nCity, locality, budget, seat count.\n\nNo more brochure scrolling.\n\n— — —\n\n3/ 2. Real numbers.\n\nActual pricing. Actual seat counts. Photos of every centre.\n\nNo marketing fluff.\n\n— — —\n\n4/ 3. Mobile-first.\n\n60% of you find us on mobile. The site is built for that first.\n\n— — —\n\n5/ 4. Tour booking in 3 clicks.\n\nDown from 13. (Faster than your morning coffee. ☕)\n\n— — —\n\n6/ 5. 12 centres. 3 cities.\n\nChennai. Bangalore. Coimbatore.\n\n3,300+ seats. Flexi-desk to enterprise floors.\n\n— — —\n\n7/ Same WorkEZ. Sharper experience.\n\n🔗 workez.in",
+          design: "Seven-tweet thread. Tweet 1 attaches the hero screenshot. Tweets 2–6 each attach a single feature screenshot. Tweet 7 attaches a CTA card with the workez.in URL.",
+          scene: { type: 'thread', count: 7 }
+        },
+        {
+          time: '2:00 PM IST',
+          angle: 'benefit',
+          summary: 'Follow-up single tweet',
+          copy: "One thing we obsessed over while rebuilding workez.in:\n\nMobile tour booking.\n\nOld site: 13 clicks. Form broken on mobile. People gave up.\nNew site: 3 clicks. Mobile-first. Calendar picker. Done in 30 seconds.",
+          design: "Attach one mobile screenshot of the new tour booking flow. Three-frame mobile mockup is ideal.",
+          scene: { type: 'screenshot', headline: '3 clicks.\n30 seconds.', bg: 'screen' }
+        }
+      ],
+      email: [{
+        time: '10:00 AM IST',
+        angle: 'new-look · brewing P.S.',
+        summary: 'Email 3 · Launch',
+        copy: "Subject: workez.in is live\nPreview: Same WorkEZ. Sharper experience.\n\nHi {First Name},\n\nIt is live.\n\nThe new workez.in is here with the full refresh.\n\nWhat changes for you:\n✓ All 12 centres on one screen. Filter by city, locality, budget, seat count.\n✓ Real photos, real pricing, real seat counts. No stock images.\n✓ Tour booking in 3 clicks. We timed it. Down from 13.\n✓ Mobile-first.\n\n[Visit workez.in]\n\nOr jump straight to your city:\n→ Chennai centres\n→ Bangalore centres\n→ Coimbatore centres\n\nP.S. The pantry services got a refresh too. Premium coffee at every centre. ☕\n\n[Explore pantry services]\n\nSame team. Same 12 centres. Sharper way to find them.\n\nTeam WorkEZ",
+        design: "Cream email background. Espresso-coloured CTA buttons. Hero image at the top: a clean screenshot of the new homepage. Mid-email: city-card links to the three city pages. Footer with workez.in logo and social icons. The pantry callout is a small P.S. with a soft secondary button.",
+        scene: { type: 'email', subject: 'workez.in is live', preview: 'Same WorkEZ. Sharper experience.', body: "Hi {First Name},\n\nIt is live. The new workez.in is here with the full refresh.\n\nWhat changes for you:\n✓ All 12 centres on one screen.\n✓ Real photos, real pricing.\n✓ Tour booking in 3 clicks.\n✓ Mobile-first.", btn: 'Visit workez.in →' },
+        crossLink: { label: 'Cross-links', body: 'workez.in · workez.in/chennai · workez.in/bangalore · workez.in/coimbatore · workez.in/pantry-services (as a P.S.)' }
+      }]
+    }
+  },
+  {
+    day: 'D+1', dow: 'Thu · May 21', phase: 'sustain', phaseLabel: 'Sustain (optional)',
+    posts: {
+      linkedin: [{
+        time: '11:00 AM IST',
+        angle: 'reaction',
+        summary: 'Sustain stat post',
+        copy: "24 hours since workez.in went live.\n\n[Insert one specific number. Tours booked. Visitors. Most-viewed centre.]\n\nIf you missed it yesterday, the refresh is here: workez.in",
+        design: "A clean stat overlay graphic. Large Fraunces number, mono label beneath. Warm cream background, copper rule.",
+        scene: { type: 'type', headline: '[Stat]', sub: '24 HOURS IN', bg: 'cream' }
+      }],
+      instagram: [{
+        time: '12:00 PM IST',
+        angle: 'reaction',
+        summary: 'Reaction post + 2 stories',
+        copy: "24 hours in.\n\n[Stat or quick reaction]\n\nworkez.in (link in bio).",
+        design: "A flat-lay or simple screenshot composition showing the new site in use. Caption is short and warm. Stories: one stat overlay, one tip-format card linking to a specific centre.",
+        scene: { type: 'screenshot', headline: '24 hours in.', sub: 'WORKEZ.IN', bg: 'screen' }
+      }],
+      facebook: [{
+        time: '2:00 PM IST',
+        angle: 'reaction',
+        summary: 'Cross-post LinkedIn sustain',
+        copy: "24 hours since the new workez.in went live. The response has been warm. If you missed it yesterday, take a look.",
+        design: "Same stat graphic as LinkedIn.",
+        scene: { type: 'type', headline: '[Stat]', sub: '24 HOURS IN', bg: 'cream' }
+      }],
+      x: [{
+        time: '10:00 AM IST',
+        angle: 'reaction',
+        summary: 'Sustain tweet',
+        copy: "24 hours since workez.in went live.\n\n[Stat: tours booked / most-viewed centre]\n\nThe refresh is here: workez.in",
+        design: "Text + optional stat graphic.",
+        scene: null
+      }],
+      email: []
+    }
+  },
+  {
+    day: 'D+7', dow: 'Wed · May 27', phase: 'sustain', phaseLabel: 'Dormant nudge',
+    posts: {
+      linkedin: [],
+      instagram: [],
+      facebook: [],
+      x: [],
+      email: [{
+        time: '10:00 AM IST',
+        angle: 'centre · brewing P.S.',
+        summary: 'Email 4 · Light nudge',
+        copy: "Subject: Found your next office yet?\nPreview: A quick reminder, in case last week got busy.\n\nHi {First Name},\n\nIn case last week got busy, the new workez.in went live last Wednesday.\n\nOne thing we have noticed: the most-viewed centre this week has been {centre name}. Worth a look if you are hunting in that locality.\n\nBrowse all 12 centres at workez.in.\n\n[Book a tour in 3 clicks]\n\nP.S. The pantry is well-stocked. ☕\n\nTeam WorkEZ",
+        design: "Light email body. Short paragraphs. One hero image of the most-viewed centre. One CTA button. Pantry mention sits as a one-line P.S. at the very bottom.",
+        scene: { type: 'email', subject: 'Found your next office yet?', preview: 'A quick reminder, in case last week got busy.', body: "Hi {First Name},\n\nIn case last week got busy, workez.in went live with the full refresh.\n\nThe most-viewed centre this week has been {centre name}. Worth a look if you are hunting in that locality.\n\nP.S. The pantry is well-stocked.", btn: 'Book a tour in 3 clicks →' },
+        crossLink: { label: 'Cross-links', body: 'workez.in · workez.in/{centre-slug} · workez.in/pantry-services (P.S. only)' }
+      }]
+    }
+  }
+];
+
+const platforms = ['linkedin', 'instagram', 'facebook', 'x', 'email'];
+const platformLabels = { linkedin: 'LinkedIn', instagram: 'Instagram', facebook: 'Facebook', x: 'X', email: 'Email' };
+
+// ============ RENDER ============
+function renderGrid() {
+  const grid = document.getElementById('grid');
+  data.forEach((row, rowIdx) => {
+    const dayCell = document.createElement('div');
+    dayCell.className = 'dcell day';
+    dayCell.innerHTML = `
+      <div class="day-label">${row.day}<span class="dow">${row.dow}</span></div>
+      <span class="phase ${row.phase}">${row.phaseLabel}</span>
+    `;
+    grid.appendChild(dayCell);
+
+    platforms.forEach(p => {
+      const cell = document.createElement('div');
+      const posts = row.posts[p] || [];
+      if (posts.length === 0) {
+        cell.className = 'dcell empty';
+      } else {
+        cell.className = 'dcell busy';
+        posts.forEach((post, postIdx) => {
+          const postEl = document.createElement('div');
+          postEl.className = 'post';
+          postEl.onclick = () => openModal(rowIdx, p, postIdx);
+          postEl.innerHTML = `
+            <div class="post-meta">
+              <div class="post-time">${post.time}</div>
+              <div class="post-summary">${post.summary}</div>
+            </div>
+            <div class="info-btn" title="See copy and design">i</div>
+          `;
+          cell.appendChild(postEl);
+        });
+      }
+      grid.appendChild(cell);
+    });
+  });
+}
+
+function openModal(rowIdx, platform, postIdx) {
+  const row = data[rowIdx];
+  const post = row.posts[platform][postIdx];
+
+  document.getElementById('mEyebrow').innerHTML = `
+    <span>${row.day} ${row.dow}</span>
+    <span class="sep">/</span>
+    <span>${platformLabels[platform]}</span>
+    <span class="sep">/</span>
+    <span>${post.time}</span>
+  `;
+  document.getElementById('mTitle').textContent = post.summary;
+  document.getElementById('mSub').textContent = row.phaseLabel;
+  document.getElementById('mAngle').textContent = 'Angle: ' + (post.angle || 'new-look');
+  document.getElementById('mCopy').textContent = post.copy;
+  document.getElementById('mDesign').innerHTML = formatDesign(post.design);
+
+  const crossDiv = document.getElementById('mCrossLinks');
+  if (post.crossLink) {
+    crossDiv.innerHTML = `
+      <div class="cross-links">
+        <strong>${post.crossLink.label}</strong>
+        ${post.crossLink.body}
+      </div>
+    `;
+  } else {
+    crossDiv.innerHTML = '';
+  }
+
+  document.getElementById('mMockup').innerHTML = renderMockup(platform, post);
+
+  document.getElementById('modalBack').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalBack').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modalBack').addEventListener('click', (e) => {
+  if (e.target.id === 'modalBack') closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+function formatDesign(text) {
+  if (!text) return '';
+  const lines = text.split('\n');
+  let html = '';
+  let inList = false;
+  lines.forEach(line => {
+    if (line.startsWith('•')) {
+      if (!inList) { html += '<ul>'; inList = true; }
+      html += `<li>${line.replace(/^•\s*/, '')}</li>`;
+    } else {
+      if (inList) { html += '</ul>'; inList = false; }
+      if (line.trim()) html += `<p>${line}</p>`;
+    }
+  });
+  if (inList) html += '</ul>';
+  return html;
+}
+
+function renderMockup(platform, post) {
+  if (!post.scene && platform === 'x') return renderXMockup(post);
+  if (post.scene && post.scene.type === 'thread') return renderThreadMockup(post);
+  if (post.scene && post.scene.type === 'email') return renderEmailMockup(post);
+  switch(platform) {
+    case 'linkedin': return renderLinkedInMockup(post);
+    case 'instagram': return renderInstagramMockup(post);
+    case 'facebook': return renderFacebookMockup(post);
+    case 'x': return renderXMockup(post);
+    default: return '';
+  }
+}
+
+function renderScene(scene) {
+  if (!scene) return '';
+  const bg = scene.bg || 'navy';
+
+  if (scene.type === 'screenshot') {
+    return `<div class="scene bg-${bg}">
+      <div class="scene-content">
+        <div class="scene-screenshot">
+          <div class="ss-bar"></div>
+          <div class="ss-card"><div class="t1"></div><div class="t2"></div></div>
+          <div class="ss-card"><div class="t1"></div><div class="t2"></div></div>
+          <div class="ss-card"><div class="t1"></div><div class="t2"></div></div>
+        </div>
+        ${scene.headline ? `<div class="scene-headline">${scene.headline.replace(/\n/g, '<br>')}</div>` : ''}
+        ${scene.sub ? `<div class="scene-sub">${scene.sub}</div>` : ''}
+      </div>
+      ${scene.dots ? '<div class="carousel-dots">1/10 ●○○</div>' : ''}
+    </div>`;
+  }
+
+  return `<div class="scene bg-${bg}">
+    <div class="scene-content">
+      ${scene.icon ? `<div class="scene-icon">${scene.icon}</div>` : ''}
+      ${scene.headline ? `<div class="scene-headline">${scene.headline.replace(/\n/g, '<br>')}</div>` : ''}
+      ${scene.sub ? `<div class="scene-sub">${scene.sub}</div>` : ''}
+    </div>
+    ${scene.dots ? '<div class="carousel-dots">1/6 ●○○○○○</div>' : ''}
+  </div>`;
+}
+
+function renderLinkedInMockup(post) {
+  const captionPreview = post.copy.split('\n').slice(0, 3).join('\n');
+  return `
+    <div class="mock mock-linkedin">
+      <div class="mh">
+        <div class="av">WE</div>
+        <div>
+          <div class="nm">WorkEZ</div>
+          <div class="mt">12,394 followers · Just now</div>
+        </div>
+      </div>
+      <div class="mb">${escapeHtml(captionPreview)}${post.copy.split('\n').length > 3 ? '\n…see more' : ''}</div>
+      <div class="mi">${renderScene(post.scene)}</div>
+      <div class="ma">
+        <span>👍 Like</span>
+        <span>💬 Comment</span>
+        <span>🔁 Repost</span>
+        <span>📤 Send</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderInstagramMockup(post) {
+  const captionPreview = post.copy.split('\n').slice(0, 2).join(' ');
+  return `
+    <div class="mock mock-ig">
+      <div class="mh">
+        <div class="av-ig"><div class="av-inner">w_</div></div>
+        <div class="nm">workez_</div>
+        <div class="more">⋯</div>
+      </div>
+      <div class="mi">${renderScene(post.scene)}</div>
+      <div class="ma">
+        <span>♡</span>
+        <span>💬</span>
+        <span>↪</span>
+        <span class="right">🔖</span>
+      </div>
+      <div class="mlikes">3,247 likes</div>
+      <div class="mcap"><b>workez_</b> ${escapeHtml(captionPreview).substring(0, 110)}…</div>
+    </div>
+  `;
+}
+
+function renderFacebookMockup(post) {
+  const captionPreview = post.copy.split('\n').slice(0, 4).join('\n');
+  return `
+    <div class="mock mock-fb">
+      <div class="mh">
+        <div class="av">WE</div>
+        <div>
+          <div class="nm">WorkEZ</div>
+          <div class="mt">Just now · 🌐</div>
+        </div>
+      </div>
+      <div class="mb">${escapeHtml(captionPreview)}</div>
+      <div class="mi">${renderScene(post.scene)}</div>
+      <div class="ma">
+        <span>👍 Like</span>
+        <span>💬 Comment</span>
+        <span>↗ Share</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderXMockup(post) {
+  const text = post.copy;
+  const hasImage = post.scene && post.scene.type !== 'type';
+  return `
+    <div class="mock mock-x">
+      <div class="mh">
+        <div class="av">WE</div>
+        <div>
+          <div class="nm-line"><b>WorkEZ</b> <span class="handle">@workez_in · Just now</span></div>
+          <div class="mb">${escapeHtml(text)}</div>
+          ${hasImage && post.scene ? `<div class="mi">${renderScene(post.scene)}</div>` : ''}
+          <div class="ma">
+            <span>💬 12</span>
+            <span>🔁 34</span>
+            <span>♡ 287</span>
+            <span>📊 1.2K</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderThreadMockup(post) {
+  const tweets = post.copy.split('— — —').map(t => t.trim()).filter(Boolean);
+  return tweets.slice(0, 3).map((tweet, i) => `
+    <div class="mock mock-x" ${i > 0 ? 'style="margin-top: -1px;"' : ''}>
+      <div class="mh">
+        <div class="av">WE</div>
+        <div style="flex: 1;">
+          <div class="nm-line"><b>WorkEZ</b> <span class="handle">@workez_in · ${i === 0 ? 'Just now' : (i + 1) + 'm'}</span></div>
+          <div class="mb">${escapeHtml(tweet)}</div>
+          <div class="ma">
+            <span>💬</span>
+            <span>🔁</span>
+            <span>♡</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    ${i < Math.min(tweets.length, 3) - 1 ? '<div class="thread-connector"></div>' : ''}
+  `).join('') + (tweets.length > 3 ? `<div style="text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--ink-mute); margin-top: 14px; text-transform: uppercase;">+ ${tweets.length - 3} more tweets in thread</div>` : '');
+}
+
+function renderEmailMockup(post) {
+  const s = post.scene;
+  return `
+    <div class="mock mock-email">
+      <div class="ehead">
+        <div class="efrom">Team WorkEZ &lt;hello@workez.in&gt;</div>
+        <div class="esubject">${escapeHtml(s.subject)}</div>
+        <div class="epreview">${escapeHtml(s.preview)}</div>
+      </div>
+      <div class="ebody">${escapeHtml(s.body)}\n\n<a href="#" class="ebtn">${escapeHtml(s.btn)}</a></div>
+    </div>
+  `;
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+renderGrid();
+</script>
+</body>
+</html>
